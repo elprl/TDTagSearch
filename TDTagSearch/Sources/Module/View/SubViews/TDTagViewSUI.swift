@@ -108,7 +108,7 @@ struct TDTagViewSUI<Content>: View where Content: View {
                     HStack {
                         ForEach(0 ..< self.elementsCountByRow[rowIndex], id: \.self) { elementIndex in
                             Button {
-                                self.viewModel.selectedTagIndex = elementIndex
+                                self.viewModel.selectedTag = self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex)
                             } label: {
                                 self.content(self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex))
                             }

@@ -18,8 +18,25 @@ enum LoadingState: String {
 
 final class TDTagSearchViewModel: ObservableObject {
     @Published var tags: [String] = []
-    @Published var selectedTagIndex: Int? = nil
+    @Published var filteredTags: [String] = []
+    @Published var selectedTag: String? = nil
     @Published var loadingState: LoadingState = .initial
+    @Published var searchText: String = "" {
+        didSet {
+            if searchText.count > 20 && oldValue.count <= 20 {
+                searchText = oldValue
+            }
+        }
+    }
+}
+
+extension TDTagSearchViewModel {
+    
+    func makeContent(tag: String) -> some View {
+        let color = color(from: tag)
+        let (parent, child) = parse(tag: tag)
+        return TDTagCapsuleSUI(color: color, parentText: parent, childText: child)
+    }
     
     func parse(tag: String, tagStyle: TagStyle = .rootChild) -> (String, String?) {
         let subStrings = tag.components(separatedBy: "/")

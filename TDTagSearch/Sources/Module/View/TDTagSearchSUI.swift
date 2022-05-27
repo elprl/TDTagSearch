@@ -11,21 +11,24 @@ import SwiftUI
 struct TDTagSearchSUI: View {
     var presenter: TDTagSearchPresenterViewInterface!
     @StateObject var viewModel: TDTagSearchViewModel
-
+    
     var body: some View {
-        VStack {
+        NavigationView {
             GeometryReader { geometry in
                 TDTagViewSUI(
-                    viewModel.tags,
+                    viewModel.filteredTags,
                     tagFont: .systemFont(ofSize: 14),
                     padding: 20,
                     parentWidth: geometry.size.width) { tag in
-                        TDTagCapsuleSUI(color: viewModel.color(from: tag), parentText: viewModel.parse(tag: tag).0, childText: viewModel.parse(tag: tag).1)
-                    }
-                    .environmentObject(viewModel)
-                    .padding(.all, 16)
+                        viewModel.makeContent(tag: tag)
+                    }.padding(.all, 16)
             }
         }
+        .navigationTitle("Defect Tags")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationViewStyle(.stack)
+        .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .environmentObject(viewModel)
         .onAppear {
             self.presenter.onAppear()
         }
@@ -35,15 +38,41 @@ struct TDTagSearchSUI: View {
     }
 }
 
+struct TDSearchBarSUI: View {
+    @EnvironmentObject var viewModel: TDTagSearchViewModel
+
+    var body: some View {
+        HStack {
+            TextField("Search Tags", text: $viewModel.searchText)
+                .padding(.horizontal, 36)
+                .frame(height: 40, alignment: .leading)
+                .background(Color(#colorLiteral(red: 0.93, green: 0.93, blue: 0.93, alpha: 1)))
+                .clipped()
+                .cornerRadius(10)
+                .overlay(
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.gray)
+                            .padding(.horizontal, 8)
+                        Spacer()
+                        Button {
+                            self.viewModel.searchText = ""
+                        } label: {
+                            Image(systemName: "x.circle.fill")
+                                .foregroundColor(.gray)
+                                .padding(.horizontal, 8)
+                        }
+                    }
+                )
+            Spacer()
+        }
+    }
+}
+
 struct TDTagSearchSUI_Previews: PreviewProvider {
     class MockPresenter: TDTagSearchPresenterViewInterface {
-        func onAppear() {
-            
-        }
-        
-        func onDisappear() {
-            
-        }
+        func onAppear() { }
+        func onDisappear() { }
     }
     
     static var previews: some View {

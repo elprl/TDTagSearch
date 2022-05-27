@@ -24,20 +24,22 @@ extension TDTagSearchInteractor: TDTagSearchInteractorPresenterInterface {
         
         // mocking
         return Future<[String], Error> { promise in
-            if let path = Bundle.main.path(forResource: "tags", ofType: "json") {
-                do {
-                    let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-                    let decoder = JSONDecoder()
-                    
-                    let tags = try decoder.decode([String].self, from: data)
-                    promise(.success(tags))
-                    return
-                } catch {
-                    // handle error
-                    promise(.failure(NSError(domain: "Error: Failed to load tags from file", code: 400)))
+            DispatchQueue.global().async {
+                if let path = Bundle.main.path(forResource: "tags", ofType: "json") {
+                    do {
+                        let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                        let decoder = JSONDecoder()
+                        
+                        let tags = try decoder.decode([String].self, from: data)
+                        promise(.success(tags))
+                        return
+                    } catch {
+                        // handle error
+                        promise(.failure(NSError(domain: "Error: Failed to load tags from file", code: 400)))
+                    }
                 }
+                promise(.failure(NSError(domain: "Error: Failed to load tags from file", code: 400)))
             }
-            promise(.failure(NSError(domain: "Error: Failed to load tags from file", code: 400)))
         }.eraseToAnyPublisher()
     }
 }
