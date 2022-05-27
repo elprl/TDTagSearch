@@ -43,7 +43,7 @@ struct TDTagViewSUI<Content>: View where Content: View {
     private func getElementsCountByRow(_ rowSize: CGFloat) -> [Int] {
         let tagWidths = self.tags.map { tag -> CGFloat in
             let text = parse(tag: tag)
-            return text.0.widthOfString(usingFont: self.tagFont) + (text.1?.widthOfString(usingFont: self.tagFont) ?? 0) - (self.padding/4)
+            return text.0.widthOfString(usingFont: self.tagFont) + (text.1?.widthOfString(usingFont: self.tagFont) ?? 0) + (self.padding/2)
         }
         
         var currentRowTotalWidth: CGFloat = 0.0
@@ -161,7 +161,7 @@ struct TDTagViewSUI_Previews: PreviewProvider {
                     tagFont: .caption,
                     padding: 20,
                     parentWidth: geometry.size.width) { tag in
-                        TDTagCapsuleSUI(parentText: tag)
+                        TDTagCapsuleSUI(originalTag: tag, parentText: tag)
                     }
                     .padding(.all, 16)
             }

@@ -22,16 +22,16 @@ struct TDTagSearchSUI: View {
                     tagFont: .callout,
                     padding: 20,
                     parentWidth: geometry.size.width) { tag in
-                        viewModel.makeContent(tag: tag, font: .callout)
+                        viewModel.makeSelectedContent(tag: tag, font: .callout)
                     }
-                    .frame(height: 60, alignment: .center)
+                    .frame(height: 40, alignment: .center)
                 TDSearchBarSUI()
                 TDTagViewSUI(
                     viewModel.filteredTags,
-                    tagFont: .footnote,
+                    tagFont: .callout,
                     padding: 20,
                     parentWidth: geometry.size.width) { tag in
-                        viewModel.makeContent(tag: tag, font: .footnote)
+                        viewModel.makeSearchContent(tag: tag, font: .callout)
                     }
                     .frame(height: 200, alignment: .center)
             }

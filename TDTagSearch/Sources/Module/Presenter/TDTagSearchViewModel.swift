@@ -33,16 +33,28 @@ final class TDTagSearchViewModel: ObservableObject {
 
 extension TDTagSearchViewModel {
     
+    func didDeselect(tag: String) {
+        if let index = self.selectedTags.firstIndex(of: tag) {
+            self.selectedTags.remove(at: index)
+        }
+    }
+    
     func didSelect(tag: String) {
         if !self.selectedTags.contains(tag) {
             self.selectedTags.insert(tag, at: 0)
         }
     }
     
-    func makeContent(tag: String, font: Font = .caption) -> some View {
+    func makeSelectedContent(tag: String, font: Font = .caption) -> some View {
         let color = color(from: tag)
         let (parent, child) = parse(tag: tag)
-        return TDTagCapsuleSUI(color: color, font: font, parentText: parent, childText: child)
+        return TDTagCapsuleSUI(color: color, font: font, originalTag: tag, parentText: parent, childText: child, isSelected: true)
+    }
+    
+    func makeSearchContent(tag: String, font: Font = .caption) -> some View {
+        let color = color(from: tag)
+        let (parent, child) = parse(tag: tag)
+        return TDTagCapsuleSUI(color: color, font: font, originalTag: tag, parentText: parent, childText: child)
     }
     
     func parse(tag: String, tagStyle: TagStyle = .rootChild) -> (String, String?) {

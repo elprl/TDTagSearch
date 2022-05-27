@@ -9,36 +9,52 @@
 import SwiftUI
 
 struct TDTagCapsuleSUI: View {
+    @EnvironmentObject var viewModel: TDTagSearchViewModel
+
     var color: Color = .red
-    var font: Font = .caption
+    var font: Font = .callout
+    var originalTag: String
     var parentText: String
     var childText: String?
+    var isSelected: Bool = false
+    var cornerRadius: CGFloat = 12.0
     
     var body: some View {
         HStack(spacing: 4) {
             Text(parentText)
                 .foregroundColor(.white)
-                .padding(.leading, 6)
+                .padding(.leading, cornerRadius/2)
                 .padding(.trailing, 4)
                 .padding(.bottom, 1)
                 .background(color)
             if let childText = self.childText {
                 Text(childText)
-                    .padding(.trailing, 6)
+                    .padding(.trailing, cornerRadius/2)
                     .padding(.bottom, 1)
+            }
+            if isSelected {
+                Button {
+                    self.viewModel.didDeselect(tag: self.originalTag)
+                } label: {
+                    Image(systemName: "x.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding(.trailing, cornerRadius/2)
+                        .padding(.vertical, 2)
+                }
             }
         }
         .font(font)
         .fixedSize()
-        .cornerRadius(12)
+        .cornerRadius(cornerRadius)
         .foregroundColor(color)
-        .overlay(RoundedRectangle(cornerRadius: 12).stroke(color, lineWidth: 1.0))
+        .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(color, lineWidth: 1.0))
     }
 }
 
 struct TDTagCapsuleSUI_Previews: PreviewProvider {
     static var previews: some View {
-        TDTagCapsuleSUI(parentText: "Architecture", childText: "patterns")
+        TDTagCapsuleSUI(originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns")
             .padding()
             .previewLayout(.sizeThatFits)
     }
