@@ -13,25 +13,46 @@ struct TDTagSearchSUI: View {
     @StateObject var viewModel: TDTagSearchViewModel
     
     var body: some View {
-        GeometryReader { geometry in
-            VStack(alignment: .leading) {
-                Text("Tags:")
-                    .font(.title3)
-                TDTagViewSUI(
-                    viewModel.selectedTags,
-                    tagFont: .callout,
-                    padding: 20,
-                    parentWidth: geometry.size.width) { tag in
-                        viewModel.makeSelectedContent(tag: tag, font: .callout)
+        GeometryReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("Tags:")
+                            .font(.title3)
+                        Spacer()
+                        TDSearchBarSUI()
                     }
-                TDSearchBarSUI()
-                TDTagViewSUI(
-                    viewModel.filteredTags,
-                    tagFont: .callout,
-                    padding: 20,
-                    parentWidth: geometry.size.width) { tag in
-                        viewModel.makeSearchContent(tag: tag, font: .callout)
+                    HStack {
+                        TDTagViewSUI(
+                            viewModel.selectedTags,
+                            tagFont: .callout,
+                            padding: 20,
+                            parentWidth: proxy.size.width - 90) { tag in
+                                viewModel.makeSelectedContent(tag: tag, font: .callout)
+                            }
+                        Spacer()
+                        Button {
+                            
+                        } label: {
+                            Text("Save")
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 2)
+                                .foregroundColor(.white)
+                                .frame(width: 80)
+                                .background(Capsule().fill(viewModel.selectedTags.count == 0 ? .gray.opacity(0.5) : .green))
+                        }
+                        .disabled(viewModel.selectedTags.count == 0)
+                        .padding(.horizontal)
                     }
+                    Divider()
+                    TDTagViewSUI(
+                        viewModel.filteredTags,
+                        tagFont: .callout,
+                        padding: 20,
+                        parentWidth: proxy.size.width) { tag in
+                            viewModel.makeSearchContent(tag: tag, font: .callout)
+                        }
+                }
             }
         }
         .padding()

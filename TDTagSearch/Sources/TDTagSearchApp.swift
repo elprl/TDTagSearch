@@ -9,10 +9,22 @@ import SwiftUI
 
 @main
 struct TDTagSearchApp: App {
+    @State private var showPopover: Bool = false
+
     var body: some Scene {
         WindowGroup {
-            TDTagSearchRouter().build()
-                .padding()
+            VStack {
+                Button("Show popover") {
+                    self.showPopover = true
+                }.popover(
+                    isPresented: self.$showPopover,
+                    arrowEdge: .bottom
+                ) {
+                    TDTagSearchRouter().build()
+                        .frame(width: 400, height: 400, alignment: .center)
+                    .padding() }
+            }
+            
         }
     }
 }

@@ -39,17 +39,18 @@ struct TDTagCapsuleSUI: View {
                     Image(systemName: "x.circle.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .padding(.leading, -cornerRadius/3)
-                        .padding(.trailing, cornerRadius/3)
-                        .padding(.vertical, 2)
+                        .frame(maxWidth: 20)
                 }
+                .padding(.leading, childText == nil ? 0 : -6)
+                .padding(.trailing, 4)
+                .padding(.vertical, 2)
             }
         }
         .font(font)
         .fixedSize()
-        .cornerRadius(cornerRadius)
+        .cornerRadius(font.uiFont.pointSize)
         .foregroundColor(color)
-        .overlay(RoundedRectangle(cornerRadius: cornerRadius).stroke(color, lineWidth: 1.0))
+        .overlay(RoundedRectangle(cornerRadius: font.uiFont.pointSize).stroke(color, lineWidth: 1.0))
     }
 }
 
@@ -59,11 +60,27 @@ struct TDTagCapsuleSUI_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             TDTagCapsuleSUI(originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns")
-                .padding()
+                .padding(2)
                 .previewLayout(.sizeThatFits)
             
             TDTagCapsuleSUI(originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns", isSelected: true)
-                .padding()
+                .padding(2)
+                .previewLayout(.sizeThatFits)
+            
+            TDTagCapsuleSUI(originalTag: "Architecture", parentText: "Architecture", childText: nil, isSelected: true)
+                .padding(2)
+                .previewLayout(.sizeThatFits)
+            
+            TDTagCapsuleSUI(font: .title, originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns")
+                .padding(2)
+                .previewLayout(.sizeThatFits)
+            
+            TDTagCapsuleSUI(font: .title, originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns", isSelected: true)
+                .padding(2)
+                .previewLayout(.sizeThatFits)
+            
+            TDTagCapsuleSUI(font: .title, originalTag: "Architecture", parentText: "Architecture", childText: nil, isSelected: true)
+                .padding(2)
                 .previewLayout(.sizeThatFits)
         }
     }
