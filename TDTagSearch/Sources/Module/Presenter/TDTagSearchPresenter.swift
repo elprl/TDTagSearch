@@ -44,7 +44,7 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
             .store(in: &cancellables)
         
         self.viewModel.$searchText
-            .debounce(for: .milliseconds(800), scheduler: RunLoop.main)
+            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .removeDuplicates()
             .map({ (string) -> String? in
                 if string.count < 1 {
@@ -57,8 +57,8 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
             .sink(receiveCompletion: { _ in
                 print("searchText receiveCompletion")
             }, receiveValue: { searchText in
-                print("searchText receiveValue")
-                self.viewModel.filteredTags = self.viewModel.tags.filter(self.searchFilter)
+                print("searchText receiveValue \(searchText)")
+                self.viewModel.filteredTags = self.viewModel.tags.filter { $0.lowercased().contains(searchText) }
             })
             .store(in: &cancellables)
     }

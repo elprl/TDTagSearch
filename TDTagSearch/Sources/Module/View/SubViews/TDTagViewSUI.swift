@@ -18,7 +18,7 @@ struct TDTagViewSUI<Content>: View where Content: View {
     @EnvironmentObject var viewModel: TDTagSearchViewModel
 
     private let tags: [String]
-    private var tagFont: UIFont
+    private var tagFont: Font
     private let padding: CGFloat
     private let parentWidth: CGFloat
     private let content: (String) -> Content
@@ -26,7 +26,7 @@ struct TDTagViewSUI<Content>: View where Content: View {
     private let tagStyle: TagStyle
     
     public init(_ tags: [String],
-                tagFont: UIFont,
+                tagFont: Font,
                 padding: CGFloat,
                 parentWidth: CGFloat,
                 tagStyle: TagStyle = .rootChild,
@@ -43,7 +43,7 @@ struct TDTagViewSUI<Content>: View where Content: View {
     private func getElementsCountByRow(_ rowSize: CGFloat) -> [Int] {
         let tagWidths = self.tags.map { tag -> CGFloat in
             let text = parse(tag: tag)
-            return text.0.widthOfString(usingFont: self.tagFont) + (text.1?.widthOfString(usingFont: self.tagFont) ?? 0) - (self.padding/2)
+            return text.0.widthOfString(usingFont: self.tagFont) + (text.1?.widthOfString(usingFont: self.tagFont) ?? 0) - (self.padding/4)
         }
         
         var currentRowTotalWidth: CGFloat = 0.0
@@ -108,7 +108,8 @@ struct TDTagViewSUI<Content>: View where Content: View {
                     HStack {
                         ForEach(0 ..< self.elementsCountByRow[rowIndex], id: \.self) { elementIndex in
                             Button {
-                                self.viewModel.selectedTag = self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex)
+                                let selectedTag = self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex)
+                                self.viewModel.didSelect(tag: selectedTag)
                             } label: {
                                 self.content(self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex))
                             }
@@ -122,10 +123,31 @@ struct TDTagViewSUI<Content>: View where Content: View {
 }
 
 extension String {
-    func widthOfString(usingFont font: UIFont) -> CGFloat {
-        let fontAttributes = [NSAttributedString.Key.font: font]
+    func widthOfString(usingFont font: Font) -> CGFloat {
+        let fontAttributes = [NSAttributedString.Key.font: font.uiFont]
         let size = self.size(withAttributes: fontAttributes)
         return size.width
+    }
+}
+
+extension Font {
+    var uiFont: UIFont {
+        let style: UIFont.TextStyle
+        switch self {
+        case .largeTitle:  style = .largeTitle
+        case .title:       style = .title1
+        case .title2:      style = .title2
+        case .title3:      style = .title3
+        case .headline:    style = .headline
+        case .subheadline: style = .subheadline
+        case .callout:     style = .callout
+        case .caption:     style = .caption1
+        case .caption2:    style = .caption2
+        case .footnote:    style = .footnote
+        case .body: fallthrough
+        default:           style = .body
+        }
+        return  UIFont.preferredFont(forTextStyle: style)
     }
 }
 
@@ -136,7 +158,7 @@ struct TDTagViewSUI_Previews: PreviewProvider {
             GeometryReader { geometry in
                 TDTagViewSUI(
                     ["tag1", "tag2"],
-                    tagFont: .systemFont(ofSize: 14),
+                    tagFont: .caption,
                     padding: 20,
                     parentWidth: geometry.size.width) { tag in
                         TDTagCapsuleSUI(parentText: tag)

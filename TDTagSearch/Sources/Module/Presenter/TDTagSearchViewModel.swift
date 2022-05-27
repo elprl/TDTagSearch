@@ -19,6 +19,7 @@ enum LoadingState: String {
 final class TDTagSearchViewModel: ObservableObject {
     @Published var tags: [String] = []
     @Published var filteredTags: [String] = []
+    @Published var selectedTags: [String] = []
     @Published var selectedTag: String? = nil
     @Published var loadingState: LoadingState = .initial
     @Published var searchText: String = "" {
@@ -32,10 +33,16 @@ final class TDTagSearchViewModel: ObservableObject {
 
 extension TDTagSearchViewModel {
     
-    func makeContent(tag: String) -> some View {
+    func didSelect(tag: String) {
+        if !self.selectedTags.contains(tag) {
+            self.selectedTags.insert(tag, at: 0)
+        }
+    }
+    
+    func makeContent(tag: String, font: Font = .caption) -> some View {
         let color = color(from: tag)
         let (parent, child) = parse(tag: tag)
-        return TDTagCapsuleSUI(color: color, parentText: parent, childText: child)
+        return TDTagCapsuleSUI(color: color, font: font, parentText: parent, childText: child)
     }
     
     func parse(tag: String, tagStyle: TagStyle = .rootChild) -> (String, String?) {
@@ -61,6 +68,9 @@ extension TDTagSearchViewModel {
     }
     
     func color(from tag: String) -> Color {
+        
+        
+        
         switch tag.prefix(1).lowercased() {
         case "a"..."e": return .red
         case "f"..."k": return .green

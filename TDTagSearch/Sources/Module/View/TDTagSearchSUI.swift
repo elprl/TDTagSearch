@@ -13,21 +13,30 @@ struct TDTagSearchSUI: View {
     @StateObject var viewModel: TDTagSearchViewModel
     
     var body: some View {
-        NavigationView {
-            GeometryReader { geometry in
+        GeometryReader { geometry in
+            VStack(alignment: .leading) {
+                Text("Tags:")
+                    .font(.title3)
                 TDTagViewSUI(
-                    viewModel.filteredTags,
-                    tagFont: .systemFont(ofSize: 14),
+                    viewModel.selectedTags,
+                    tagFont: .callout,
                     padding: 20,
                     parentWidth: geometry.size.width) { tag in
-                        viewModel.makeContent(tag: tag)
-                    }.padding(.all, 16)
+                        viewModel.makeContent(tag: tag, font: .callout)
+                    }
+                    .frame(height: 60, alignment: .center)
+                TDSearchBarSUI()
+                TDTagViewSUI(
+                    viewModel.filteredTags,
+                    tagFont: .footnote,
+                    padding: 20,
+                    parentWidth: geometry.size.width) { tag in
+                        viewModel.makeContent(tag: tag, font: .footnote)
+                    }
+                    .frame(height: 200, alignment: .center)
             }
         }
-        .navigationTitle("Defect Tags")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationViewStyle(.stack)
-        .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always))
+        .padding()
         .environmentObject(viewModel)
         .onAppear {
             self.presenter.onAppear()

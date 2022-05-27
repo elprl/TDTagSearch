@@ -26,8 +26,8 @@
 		E15463B7283FB54E00D142D0 /* TDTagSearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15463B6283FB54E00D142D0 /* TDTagSearchInteractor.swift */; };
 		E15463BA283FB56600D142D0 /* TDTagSearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15463B9283FB56600D142D0 /* TDTagSearchPresenter.swift */; };
 		E15463BD283FC40B00D142D0 /* TDTagSearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15463BC283FC40B00D142D0 /* TDTagSearchRouter.swift */; };
-		E15463BE283FC55800D142D0 /* tags.json in Resources */ = {isa = PBXBuildFile; fileRef = E1546397283FAEBD00D142D0 /* tags.json */; };
-		E15463BF283FC55900D142D0 /* tags.json in Resources */ = {isa = PBXBuildFile; fileRef = E1546397283FAEBD00D142D0 /* tags.json */; };
+		E15463BE283FC55800D142D0 /* defect_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = E1546397283FAEBD00D142D0 /* defect_tags.json */; };
+		E15463BF283FC55900D142D0 /* defect_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = E1546397283FAEBD00D142D0 /* defect_tags.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,7 +59,7 @@
 		E1546394283FAEAF00D142D0 /* TDTagCapsuleSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagCapsuleSUI.swift; sourceTree = "<group>"; };
 		E1546395283FAEAF00D142D0 /* TDTagViewSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagViewSUI.swift; sourceTree = "<group>"; };
 		E1546396283FAEAF00D142D0 /* TDTagSearchSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagSearchSUI.swift; sourceTree = "<group>"; };
-		E1546397283FAEBD00D142D0 /* tags.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = tags.json; sourceTree = "<group>"; };
+		E1546397283FAEBD00D142D0 /* defect_tags.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = defect_tags.json; sourceTree = "<group>"; };
 		E15463A3283FB06900D142D0 /* TDTagSearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagSearchTests.swift; sourceTree = "<group>"; };
 		E15463B2283FB4B500D142D0 /* TDTagSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagSearchViewModel.swift; sourceTree = "<group>"; };
 		E15463B6283FB54E00D142D0 /* TDTagSearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagSearchInteractor.swift; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 			children = (
 				E1546393283FAE8000D142D0 /* Sources */,
 				E1546369283FAE1600D142D0 /* TDTagSearchApp.swift */,
-				E1546397283FAEBD00D142D0 /* tags.json */,
+				E1546397283FAEBD00D142D0 /* defect_tags.json */,
 				E154636D283FAE1600D142D0 /* Assets.xcassets */,
 				E154636F283FAE1600D142D0 /* Preview Content */,
 			);
@@ -370,7 +370,7 @@
 			files = (
 				E1546371283FAE1600D142D0 /* Preview Assets.xcassets in Resources */,
 				E154636E283FAE1600D142D0 /* Assets.xcassets in Resources */,
-				E15463BF283FC55900D142D0 /* tags.json in Resources */,
+				E15463BF283FC55900D142D0 /* defect_tags.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,7 +378,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E15463BE283FC55800D142D0 /* tags.json in Resources */,
+				E15463BE283FC55800D142D0 /* defect_tags.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
