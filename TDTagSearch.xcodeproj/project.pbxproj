@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E135DE78284147840089BCAC /* TDSearchBarSUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E135DE77284147840089BCAC /* TDSearchBarSUI.swift */; };
 		E154636A283FAE1600D142D0 /* TDTagSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1546369283FAE1600D142D0 /* TDTagSearchApp.swift */; };
 		E154636E283FAE1600D142D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E154636D283FAE1600D142D0 /* Assets.xcassets */; };
 		E1546371283FAE1600D142D0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1546370283FAE1600D142D0 /* Preview Assets.xcassets */; };
@@ -48,6 +49,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E135DE77284147840089BCAC /* TDSearchBarSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDSearchBarSUI.swift; sourceTree = "<group>"; };
 		E1546366283FAE1600D142D0 /* TDTagSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TDTagSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1546369283FAE1600D142D0 /* TDTagSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagSearchApp.swift; sourceTree = "<group>"; };
 		E154636D283FAE1600D142D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -119,7 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				E1546393283FAE8000D142D0 /* Sources */,
-				E1546369283FAE1600D142D0 /* TDTagSearchApp.swift */,
 				E1546397283FAEBD00D142D0 /* defect_tags.json */,
 				E154636D283FAE1600D142D0 /* Assets.xcassets */,
 				E154636F283FAE1600D142D0 /* Preview Content */,
@@ -155,9 +156,10 @@
 		E1546393283FAE8000D142D0 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				E1546369283FAE1600D142D0 /* TDTagSearchApp.swift */,
 				E15463B4283FB4DF00D142D0 /* Utils */,
 				E15463AF283FB38800D142D0 /* Services */,
-				E15463AB283FB37100D142D0 /* Module */,
+				E15463AB283FB37100D142D0 /* Modules */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -178,7 +180,7 @@
 			path = TagSearch;
 			sourceTree = "<group>";
 		};
-		E15463AB283FB37100D142D0 /* Module */ = {
+		E15463AB283FB37100D142D0 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
 				E15463AC283FB37700D142D0 /* View */,
@@ -187,7 +189,7 @@
 				E15463B1283FB39700D142D0 /* Entities */,
 				E15463B0283FB38F00D142D0 /* Router */,
 			);
-			path = Module;
+			path = Modules;
 			sourceTree = "<group>";
 		};
 		E15463AC283FB37700D142D0 /* View */ = {
@@ -250,6 +252,7 @@
 			children = (
 				E1546395283FAEAF00D142D0 /* TDTagViewSUI.swift */,
 				E1546394283FAEAF00D142D0 /* TDTagCapsuleSUI.swift */,
+				E135DE77284147840089BCAC /* TDSearchBarSUI.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				E15463A6283FB12300D142D0 /* TDTagViewSUI.swift in Sources */,
 				E15463B7283FB54E00D142D0 /* TDTagSearchInteractor.swift in Sources */,
 				E15463BD283FC40B00D142D0 /* TDTagSearchRouter.swift in Sources */,
+				E135DE78284147840089BCAC /* TDSearchBarSUI.swift in Sources */,
 				E154636A283FAE1600D142D0 /* TDTagSearchApp.swift in Sources */,
 				E15463B3283FB4B500D142D0 /* TDTagSearchViewModel.swift in Sources */,
 			);

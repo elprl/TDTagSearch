@@ -102,21 +102,19 @@ struct TDTagViewSUI<Content>: View where Content: View {
     }
     
     public var body : some View {
-        ScrollView {
-            LazyVStack(alignment: .leading, spacing: 0) {
-                ForEach(0 ..< self.elementsCountByRow.count, id: \.self) { rowIndex in
-                    HStack {
-                        ForEach(0 ..< self.elementsCountByRow[rowIndex], id: \.self) { elementIndex in
-                            Button {
-                                let selectedTag = self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex)
-                                self.viewModel.didSelect(tag: selectedTag)
-                            } label: {
-                                self.content(self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex))
-                            }
+        LazyVStack(alignment: .leading, spacing: 0) {
+            ForEach(0 ..< self.elementsCountByRow.count, id: \.self) { rowIndex in
+                HStack {
+                    ForEach(0 ..< self.elementsCountByRow[rowIndex], id: \.self) { elementIndex in
+                        Button {
+                            let selectedTag = self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex)
+                            self.viewModel.didSelect(tag: selectedTag)
+                        } label: {
+                            self.content(self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex))
                         }
-                        Spacer()
-                    }.padding(.vertical, 4)
-                }
+                    }
+                    Spacer()
+                }.padding(.vertical, 4)
             }
         }
     }
@@ -151,23 +149,29 @@ extension Font {
     }
 }
 
+#if DEBUG
+
 struct TDTagViewSUI_Previews: PreviewProvider {
+    static let vm = TDTagSearchViewModel.mock()
 
     static var previews: some View {
+//        GeometryReader { geometry in
         VStack {
-            GeometryReader { geometry in
                 TDTagViewSUI(
-                    ["tag1", "tag2"],
+                    vm.tags,
                     tagFont: .caption,
                     padding: 20,
-                    parentWidth: geometry.size.width) { tag in
+                    parentWidth: 300) { tag in
                         TDTagCapsuleSUI(originalTag: tag, parentText: tag)
                     }
                     .padding(.all, 16)
-            }
+//            }
         }
-        .environmentObject(TDTagSearchViewModel())
-        .frame(width: 500, height: 300, alignment: .center)
-        .previewLayout(.fixed(width: 500, height: 300))
+        .environmentObject(vm)
+        .previewLayout(.sizeThatFits)
+//        .frame(width: 500, height: 300, alignment: .center)
+//        .previewLayout(.fixed(width: 500, height: 300))
     }
 }
+
+#endif

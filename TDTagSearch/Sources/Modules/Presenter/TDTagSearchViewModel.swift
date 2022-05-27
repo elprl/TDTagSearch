@@ -92,3 +92,19 @@ extension TDTagSearchViewModel {
         }
     }
 }
+
+
+#if DEBUG
+
+extension TDTagSearchViewModel {
+    static func mock() -> TDTagSearchViewModel {
+        let mock = TDTagSearchViewModel()
+        mock.tags = ["Mock/Data", "Mock/Data1", "Mock/Data2", "Mock/Data3", "Mock/Data4", "Mock/Data5", "Mock/Data6"]
+        mock.searchText = "mock"
+        mock.filteredTags = mock.tags
+        mock.selectedTags = ["Mock/Data"]
+        return mock
+    }
+}
+
+#endif

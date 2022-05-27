@@ -24,7 +24,6 @@ struct TDTagSearchSUI: View {
                     parentWidth: geometry.size.width) { tag in
                         viewModel.makeSelectedContent(tag: tag, font: .callout)
                     }
-                    .frame(height: 40, alignment: .center)
                 TDSearchBarSUI()
                 TDTagViewSUI(
                     viewModel.filteredTags,
@@ -33,7 +32,6 @@ struct TDTagSearchSUI: View {
                     parentWidth: geometry.size.width) { tag in
                         viewModel.makeSearchContent(tag: tag, font: .callout)
                     }
-                    .frame(height: 200, alignment: .center)
             }
         }
         .padding()
@@ -47,36 +45,7 @@ struct TDTagSearchSUI: View {
     }
 }
 
-struct TDSearchBarSUI: View {
-    @EnvironmentObject var viewModel: TDTagSearchViewModel
-
-    var body: some View {
-        HStack {
-            TextField("Search Tags", text: $viewModel.searchText)
-                .padding(.horizontal, 36)
-                .frame(height: 40, alignment: .leading)
-                .background(Color(#colorLiteral(red: 0.93, green: 0.93, blue: 0.93, alpha: 1)))
-                .clipped()
-                .cornerRadius(10)
-                .overlay(
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray)
-                            .padding(.horizontal, 8)
-                        Spacer()
-                        Button {
-                            self.viewModel.searchText = ""
-                        } label: {
-                            Image(systemName: "x.circle.fill")
-                                .foregroundColor(.gray)
-                                .padding(.horizontal, 8)
-                        }
-                    }
-                )
-            Spacer()
-        }
-    }
-}
+#if DEBUG
 
 struct TDTagSearchSUI_Previews: PreviewProvider {
     class MockPresenter: TDTagSearchPresenterViewInterface {
@@ -85,7 +54,8 @@ struct TDTagSearchSUI_Previews: PreviewProvider {
     }
     
     static var previews: some View {
-        TDTagSearchSUI(presenter: MockPresenter(), viewModel: TDTagSearchViewModel())
-            .environmentObject(TDTagSearchViewModel())
+        TDTagSearchSUI(presenter: MockPresenter(), viewModel: TDTagSearchViewModel.mock())
     }
 }
+
+#endif

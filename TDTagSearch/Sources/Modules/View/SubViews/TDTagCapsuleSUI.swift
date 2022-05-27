@@ -39,7 +39,8 @@ struct TDTagCapsuleSUI: View {
                     Image(systemName: "x.circle.fill")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .padding(.trailing, cornerRadius/2)
+                        .padding(.leading, -cornerRadius/3)
+                        .padding(.trailing, cornerRadius/3)
                         .padding(.vertical, 2)
                 }
             }
@@ -52,10 +53,20 @@ struct TDTagCapsuleSUI: View {
     }
 }
 
+#if DEBUG
+
 struct TDTagCapsuleSUI_Previews: PreviewProvider {
     static var previews: some View {
-        TDTagCapsuleSUI(originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns")
-            .padding()
-            .previewLayout(.sizeThatFits)
+        Group {
+            TDTagCapsuleSUI(originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns")
+                .padding()
+                .previewLayout(.sizeThatFits)
+            
+            TDTagCapsuleSUI(originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns", isSelected: true)
+                .padding()
+                .previewLayout(.sizeThatFits)
+        }
     }
 }
+
+#endif
