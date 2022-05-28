@@ -50,6 +50,7 @@
 
 /* Begin PBXFileReference section */
 		E135DE77284147840089BCAC /* TDSearchBarSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDSearchBarSUI.swift; sourceTree = "<group>"; };
+		E135DE7928429F540089BCAC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E1546366283FAE1600D142D0 /* TDTagSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TDTagSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1546369283FAE1600D142D0 /* TDTagSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagSearchApp.swift; sourceTree = "<group>"; };
 		E154636D283FAE1600D142D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -100,6 +101,7 @@
 		E154635D283FAE1600D142D0 = {
 			isa = PBXGroup;
 			children = (
+				E135DE7928429F540089BCAC /* README.md */,
 				E1546368283FAE1600D142D0 /* TDTagSearch */,
 				E1546379283FAE1600D142D0 /* TDTagSearchTests */,
 				E1546383283FAE1700D142D0 /* TDTagSearchUITests */,

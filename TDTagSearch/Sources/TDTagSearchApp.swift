@@ -21,7 +21,7 @@ struct TDTagSearchApp: App {
                     arrowEdge: .bottom
                 ) {
                     TDTagSearchRouter().build()
-                        .frame(width: 400, height: 400, alignment: .center)
+                        .frame(width: 600, height: 400, alignment: .center)
                     .padding() }
             }
             
