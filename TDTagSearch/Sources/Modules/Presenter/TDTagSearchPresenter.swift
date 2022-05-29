@@ -11,7 +11,24 @@ import Combine
 protocol TDTagSearchPresenterViewInterface: AnyObject {
     func onAppear()
     func onDisappear()
+    func onSave(tags: [String])
+    func onTap(tag: String)
+    func onDismiss(tag: String)
+    func onBack()
+    func onCancelSearch()
 }
+
+#if DEBUG
+class MockPresenter: TDTagSearchPresenterViewInterface {
+    func onAppear() { }
+    func onDisappear() { }
+    func onSave(tags: [String]) { }
+    func onTap(tag: String) { }
+    func onDismiss(tag: String) { }
+    func onBack() { }
+    func onCancelSearch() { }
+}
+#endif
 
 protocol TDTagSearchPresenterInteractorInterface: AnyObject {
 
@@ -27,23 +44,46 @@ final class TDTagSearchPresenter {
         if tag.lowercased().contains(self.viewModel.searchText.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)) { return true }
         return false
     }
+    
+    private func treeFilter(_ tag: String) -> Bool {
+        if let path = self.viewModel.selectedPath {
+            if tag == path { return false }
+            if !tag.lowercased().contains(path.lowercased()) { return false }
+            let pathSubStrings = path.components(separatedBy: "/")
+            let tagSubStrings = tag.components(separatedBy: "/")
+            if tag.hasSuffix("/") {
+                if (tagSubStrings.count - pathSubStrings.count) >= 2 { return false }
+            } else {
+                if (tagSubStrings.count - pathSubStrings.count) >= 1 { return false }
+            }
+            return true
+        } else {
+            if tag.hasSuffix("/") && tag.components(separatedBy: "/").count == 2 { return true }
+        }
+        return false
+    }
 }
 
 extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
     func onAppear() {
         self.interactor.fetchTagList()
             .subscribe(on: DispatchQueue.global(qos: .background))
+            .compactMap({ tags -> ([String], [String]) in
+                return (tags, tags.filter(self.treeFilter))
+            })
             .receive(on: DispatchQueue.main)
             .sink { error in
                 // handle error
                 print("completion with \(error)")
-            } receiveValue: { tags in
+            } receiveValue: { tags, filteredTags in
                 self.viewModel.tags = tags
-                self.viewModel.filteredTags = tags.filter(self.searchFilter)
+                self.viewModel.filteredTags = filteredTags
             }
             .store(in: &cancellables)
         
         self.viewModel.$searchText
+            .subscribe(on: DispatchQueue.global(qos: .background))
+            .dropFirst()
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .removeDuplicates()
             .map({ (string) -> String? in
@@ -54,10 +94,12 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
                 return string.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
             }) // prevents sending numerous requests and sends nil if the count of the characters is less than 1.
             .compactMap{ $0 } // removes the nil values so the search string does not get passed down to the publisher chain
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
                 print("searchText receiveCompletion")
             }, receiveValue: { searchText in
                 print("searchText receiveValue \(searchText)")
+                self.viewModel.selectedPath = nil
                 self.viewModel.filteredTags = self.viewModel.tags.filter { $0.lowercased().contains(searchText) }
             })
             .store(in: &cancellables)
@@ -65,6 +107,54 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
     
     func onDisappear() {
         self.cancellables.removeAll()
+    }
+    
+    func onSave(tags: [String]) {
+        
+    }
+    
+    func onTap(tag: String) {
+        if tag.hasSuffix("/") {
+            print("selectedPath = \(tag)")
+            self.viewModel.selectedPath = tag
+            self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
+        } else if !self.viewModel.selectedTags.contains(tag) {
+            self.viewModel.selectedTags.insert(tag, at: 0)
+        }
+    }
+    
+    func onDismiss(tag: String) {
+        if let index = self.viewModel.selectedTags.firstIndex(of: tag) {
+            self.viewModel.selectedTags.remove(at: index)
+        }
+    }
+    
+    func onBack() {
+        if let path = self.viewModel.selectedPath {
+            var subStrings = path.components(separatedBy: "/")
+            if subStrings.count <= 2 {
+                self.viewModel.selectedPath = nil
+            } else {
+                subStrings.removeLast()
+                subStrings.removeLast()
+                if subStrings.count == 1 {
+                    self.viewModel.selectedPath = subStrings.first! + "/"
+                } else {
+                    let total: String = subStrings.reduce("") { $0 + $1 + "/"}
+                    self.viewModel.selectedPath = total
+                }
+            }
+            self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
+        }
+    }
+    
+    func onCancelSearch() {
+        DispatchQueue.main.async {
+            self.viewModel.searchText = ""
+//            self.viewModel.isSearching = false
+            self.viewModel.selectedPath = nil
+            self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
+        }
     }
 }
 

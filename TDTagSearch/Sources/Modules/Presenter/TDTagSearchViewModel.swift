@@ -21,7 +21,9 @@ final class TDTagSearchViewModel: ObservableObject {
     @Published var filteredTags: [String] = []
     @Published var selectedTags: [String] = []
     @Published var selectedTag: String? = nil
+    @Published var selectedPath: String? = nil
     @Published var loadingState: LoadingState = .initial
+    @Published var isSearching: Bool = false
     @Published var searchText: String = "" {
         didSet {
             if searchText.count > 20 && oldValue.count <= 20 {
@@ -33,56 +35,19 @@ final class TDTagSearchViewModel: ObservableObject {
 
 extension TDTagSearchViewModel {
     
-    func didDeselect(tag: String) {
-        if let index = self.selectedTags.firstIndex(of: tag) {
-            self.selectedTags.remove(at: index)
-        }
-    }
-    
-    func didSelect(tag: String) {
-        if !self.selectedTags.contains(tag) {
-            self.selectedTags.insert(tag, at: 0)
-        }
-    }
-    
-    func makeSelectedContent(tag: String, font: Font = .caption) -> some View {
+    func makeSelectedContent(presenter: TDTagSearchPresenterViewInterface, tag: String, font: Font = .caption, tagStyle: TagStyle = .parentChild) -> some View {
         let color = color(from: tag)
-        let (parent, child) = parse(tag: tag)
-        return TDTagCapsuleSUI(color: color, font: font, originalTag: tag, parentText: parent, childText: child, isSelected: true)
+        let (parent, child) = tag.parse(with: tagStyle)
+        return TDTagCapsuleSUI(presenter: presenter, color: color, font: font, originalTag: tag, parentText: parent, childText: child, isSelected: true)
     }
     
-    func makeSearchContent(tag: String, font: Font = .caption) -> some View {
+    func makeSearchContent(presenter: TDTagSearchPresenterViewInterface, tag: String, font: Font = .caption, tagStyle: TagStyle = .parentChild) -> some View {
         let color = color(from: tag)
-        let (parent, child) = parse(tag: tag)
-        return TDTagCapsuleSUI(color: color, font: font, originalTag: tag, parentText: parent, childText: child)
-    }
-    
-    func parse(tag: String, tagStyle: TagStyle = .rootChild) -> (String, String?) {
-        let subStrings = tag.components(separatedBy: "/")
-        if tagStyle == .parentChild {
-            if subStrings.count > 1 {
-                return (subStrings[subStrings.count-2], subStrings.last)
-            } else if subStrings.count == 1 {
-                return (subStrings.first!, nil)
-            }
-        } else if tagStyle == .rootChild {
-            if subStrings.count > 1 {
-                return (subStrings.first!, subStrings.last)
-            } else if subStrings.count == 1 {
-                return (subStrings.first!, nil)
-            }
-        } else {
-            if subStrings.count > 0 {
-                return (subStrings.last!, nil)
-            }
-        }
-        return ("", nil)
+        let (parent, child) = tag.parse(with: tagStyle)
+        return TDTagCapsuleSUI(presenter: presenter, color: color, font: font, originalTag: tag, parentText: parent, childText: child)
     }
     
     func color(from tag: String) -> Color {
-        
-        
-        
         switch tag.prefix(1).lowercased() {
         case "a"..."e": return .red
         case "f"..."k": return .green

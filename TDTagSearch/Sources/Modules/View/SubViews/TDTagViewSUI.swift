@@ -15,7 +15,7 @@ enum TagStyle {
 }
 
 struct TDTagViewSUI<Content>: View where Content: View {
-    @EnvironmentObject var viewModel: TDTagSearchViewModel
+    var presenter: TDTagSearchPresenterViewInterface
 
     private let tags: [String]
     private var tagFont: Font
@@ -25,12 +25,14 @@ struct TDTagViewSUI<Content>: View where Content: View {
     private var elementsCountByRow: [Int] = []
     private let tagStyle: TagStyle
     
-    public init(_ tags: [String],
+    public init(presenter: TDTagSearchPresenterViewInterface,
+                _ tags: [String],
                 tagFont: Font,
                 padding: CGFloat,
                 parentWidth: CGFloat,
-                tagStyle: TagStyle = .rootChild,
+                tagStyle: TagStyle = .parentChild,
                 content: @escaping (String) -> Content) {
+        self.presenter = presenter
         self.tags = tags
         self.tagFont = tagFont
         self.padding = padding
@@ -42,7 +44,7 @@ struct TDTagViewSUI<Content>: View where Content: View {
     
     private func getElementsCountByRow(_ rowSize: CGFloat) -> [Int] {
         let tagWidths = self.tags.map { tag -> CGFloat in
-            let text = parse(tag: tag)
+            let text = tag.parse(with: self.tagStyle)
             return text.0.widthOfString(usingFont: self.tagFont) + (text.1?.widthOfString(usingFont: self.tagFont) ?? 0) + (self.padding/2)
         }
         
@@ -66,28 +68,6 @@ struct TDTagViewSUI<Content>: View where Content: View {
         return result
     }
     
-    private func parse(tag: String) -> (String, String?) {
-        let subStrings = tag.components(separatedBy: "/")
-        if tagStyle == .parentChild {
-            if subStrings.count > 1 {
-                return (subStrings[subStrings.count-2], subStrings.last)
-            } else if subStrings.count == 1 {
-                return (subStrings.first!, nil)
-            }
-        } else if tagStyle == .rootChild {
-            if subStrings.count > 1 {
-                return (subStrings.first!, subStrings.last)
-            } else if subStrings.count == 1 {
-                return (subStrings.first!, nil)
-            }
-        } else {
-            if subStrings.count > 0 {
-                return (subStrings.last!, nil)
-            }
-        }
-        return ("", nil)
-    }
-    
     private func getTag(elementsCountByRow: [Int], rowIndex: Int, elementIndex: Int) -> String {
         let sumOfPreviousRows = elementsCountByRow.enumerated().reduce(0) { total, next in
             if next.offset < rowIndex {
@@ -108,7 +88,7 @@ struct TDTagViewSUI<Content>: View where Content: View {
                     ForEach(0 ..< self.elementsCountByRow[rowIndex], id: \.self) { elementIndex in
                         Button {
                             let selectedTag = self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex)
-                            self.viewModel.didSelect(tag: selectedTag)
+                            self.presenter.onTap(tag: selectedTag)
                         } label: {
                             self.content(self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex))
                         }
@@ -153,24 +133,21 @@ extension Font {
 
 struct TDTagViewSUI_Previews: PreviewProvider {
     static let vm = TDTagSearchViewModel.mock()
-
+    
     static var previews: some View {
-//        GeometryReader { geometry in
         VStack {
-                TDTagViewSUI(
-                    vm.tags,
-                    tagFont: .caption,
-                    padding: 20,
-                    parentWidth: 300) { tag in
-                        TDTagCapsuleSUI(originalTag: tag, parentText: tag)
-                    }
-                    .padding(.all, 16)
-//            }
+            TDTagViewSUI(
+                presenter: MockPresenter(),
+                vm.tags,
+                tagFont: .caption,
+                padding: 20,
+                parentWidth: 300) { tag in
+                    TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: tag, parentText: tag)
+                }
+                .padding(.all, 16)
         }
         .environmentObject(vm)
         .previewLayout(.sizeThatFits)
-//        .frame(width: 500, height: 300, alignment: .center)
-//        .previewLayout(.fixed(width: 500, height: 300))
     }
 }
 
