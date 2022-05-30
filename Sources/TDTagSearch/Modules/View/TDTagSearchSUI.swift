@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-struct TDTagSearchSUI: View {
+public struct TDTagSearchSUI: View {
     var presenter: TDTagSearchPresenterViewInterface!
     @StateObject var viewModel: TDTagSearchViewModel
     
-    var body: some View {
+    public var body: some View {
 #if DEBUG
         let _ = Self._printChanges()
 #endif

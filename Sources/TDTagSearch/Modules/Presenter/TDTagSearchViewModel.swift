@@ -9,14 +9,14 @@ import Foundation
 import Combine
 import SwiftUI
 
-enum LoadingState: String {
+public enum LoadingState: String {
     case initial = "Initial"
     case loading = "Loading"
     case loaded = "Loaded"
     case failed = "Failed"
 }
 
-final class TDTagSearchViewModel: ObservableObject {
+final public class TDTagSearchViewModel: ObservableObject {
     @Published var tags: [String] = []
     @Published var filteredTags: [String] = []
     @Published var selectedTags: [String] = []
@@ -30,6 +30,10 @@ final class TDTagSearchViewModel: ObservableObject {
                 searchText = oldValue
             }
         }
+    }
+    
+    public init() {
+        
     }
 }
 

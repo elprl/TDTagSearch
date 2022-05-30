@@ -8,9 +8,13 @@
 import Foundation
 import SwiftUI
 
-final class TDTagSearchRouter {
+final public class TDTagSearchRouter {
     
-    func build(viewModel: TDTagSearchViewModel = TDTagSearchViewModel()) -> some View {
+    public init() {
+        
+    }
+    
+    public func build(viewModel: TDTagSearchViewModel = TDTagSearchViewModel()) -> some View {
         let presenter = TDTagSearchPresenter()
         let interactor = TDTagSearchInteractor()
         interactor.presenter = presenter

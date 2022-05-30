@@ -34,7 +34,7 @@ protocol TDTagSearchPresenterInteractorInterface: AnyObject {
 
 }
 
-final class TDTagSearchPresenter {
+final public class TDTagSearchPresenter {
     var interactor: TDTagSearchInteractorPresenterInterface!
     weak var viewModel: TDTagSearchViewModel!
     private var cancellables: Set<AnyCancellable> = []

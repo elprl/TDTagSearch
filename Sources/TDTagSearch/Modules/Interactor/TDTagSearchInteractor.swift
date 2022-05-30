@@ -14,7 +14,7 @@ protocol TDTagSearchInteractorPresenterInterface: AnyObject {
     func fetchTagList() -> AnyPublisher<[String], Error>
 }
 
-final class TDTagSearchInteractor {
+final public class TDTagSearchInteractor {
     weak var presenter: TDTagSearchPresenterInteractorInterface!
 }
 
@@ -25,7 +25,7 @@ extension TDTagSearchInteractor: TDTagSearchInteractorPresenterInterface {
         // mocking
         return Future<[String], Error> { promise in
             DispatchQueue.global().async {
-                if let path = Bundle.main.path(forResource: "defect_tags", ofType: "json") {
+                if let path = Bundle.main.path(forResource: "tags", ofType: "json") {
                     do {
                         let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                         let decoder = JSONDecoder()
