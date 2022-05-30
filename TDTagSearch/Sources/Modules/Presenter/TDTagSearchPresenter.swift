@@ -86,15 +86,15 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
             .dropFirst()
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .removeDuplicates()
+            .receive(on: DispatchQueue.main)
             .map({ (string) -> String? in
                 if string.count < 1 {
-                    self.viewModel.filteredTags = self.viewModel.tags
+                    self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
                     return nil
                 }
                 return string.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
             }) // prevents sending numerous requests and sends nil if the count of the characters is less than 1.
             .compactMap{ $0 } // removes the nil values so the search string does not get passed down to the publisher chain
-            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { _ in
                 print("searchText receiveCompletion")
             }, receiveValue: { searchText in
@@ -151,7 +151,6 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
     func onCancelSearch() {
         DispatchQueue.main.async {
             self.viewModel.searchText = ""
-//            self.viewModel.isSearching = false
             self.viewModel.selectedPath = nil
             self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
         }

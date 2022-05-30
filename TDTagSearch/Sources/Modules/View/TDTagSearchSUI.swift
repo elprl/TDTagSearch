@@ -14,73 +14,12 @@ struct TDTagSearchSUI: View {
     
     var body: some View {
 #if DEBUG
-let _ = Self._printChanges()
+        let _ = Self._printChanges()
 #endif
-        GeometryReader { proxy in
-            ScrollView {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text("Tags:")
-                            .font(.title3)
-                        Spacer()
-                        TDSearchBarSUI()
-                        if self.viewModel.isSearching {
-                            Button {
-//                                self.presenter.onCancelSearch()
-                                self.viewModel.searchText = ""
-                                self.viewModel.isSearching = false
-                                self.viewModel.selectedPath = nil
-//                                self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
-                            } label: {
-                                Text("Cancel")
-                            }
-                        }
-                    }
-                    HStack {
-                        TDTagViewSUI(
-                            presenter: presenter,
-                            viewModel.selectedTags,
-                            tagFont: .callout,
-                            padding: 20,
-                            parentWidth: proxy.size.width - 90) { tag in
-                                self.viewModel.makeSelectedContent(presenter: presenter, tag: tag, font: .callout)
-                            }
-                        Spacer()
-                        Button {
-                            self.presenter.onSave(tags: viewModel.selectedTags)
-                        } label: {
-                            Text("Save")
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 2)
-                                .foregroundColor(.white)
-                                .frame(width: 80)
-                                .background(Capsule().fill(viewModel.selectedTags.count == 0 ? .gray.opacity(0.5) : .green))
-                        }
-                        .disabled(viewModel.selectedTags.count == 0)
-                        .padding(.horizontal)
-                    }
-                    Divider()
-                    if self.viewModel.selectedPath != nil {
-                        Button {
-                            self.presenter.onBack()
-                        } label: {
-                            Text("< Back")
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 2)
-                        }
-                    }
-                    TDTagViewSUI(
-                        presenter: presenter,
-                        viewModel.filteredTags,
-                        tagFont: .callout,
-                        padding: 20,
-                        parentWidth: proxy.size.width) { tag in
-                            self.viewModel.makeSearchContent(presenter: presenter, tag: tag, font: .callout)
-                        }
-                }
-            }
+        NavigationView {
+            TDTagSearchScrollViewSUI(presenter: presenter)
         }
-        .padding()
+        .navigationViewStyle(.stack)
         .environmentObject(viewModel)
         .onAppear {
             self.presenter.onAppear()
@@ -91,12 +30,105 @@ let _ = Self._printChanges()
     }
 }
 
+struct TDTagSearchScrollViewSUI: View {
+    var presenter: TDTagSearchPresenterViewInterface!
+    @EnvironmentObject var viewModel: TDTagSearchViewModel
+    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.isSearching) private var isSearching
+    @Environment(\.dismissSearch) private var dismissSearch
+    
+    var body: some View {
+#if DEBUG
+        let _ = Self._printChanges()
+#endif
+        //        GeometryReader { proxy in
+        ScrollView {
+            VStack(alignment: .leading) {
+                if self.viewModel.selectedTags.count > 0 {
+                    Text("Selected Tags:")
+                        .lineLimit(1)
+                        .font(.callout)
+                        .foregroundColor(.orange)
+                    
+                    TDTagViewSUI(
+                        presenter: presenter,
+                        viewModel.selectedTags,
+                        tagFont: .callout,
+                        padding: 20,
+                        parentWidth: 600 - 90) { tag in
+                            self.viewModel.makeSelectedContent(presenter: presenter, tag: tag, font: .callout)
+                        }
+                    Divider()
+                }
+                if self.viewModel.selectedPath != nil {
+                    HStack {
+                        Button {
+                            self.presenter.onBack()
+                        } label: {
+                            Text("< Back")
+                                .lineLimit(1)
+                                .font(.callout)
+                                .foregroundColor(.orange)
+                                .padding(.vertical, 2)
+                        }
+                        Spacer()
+                        Text(self.viewModel.selectedPath ?? "")
+                            .lineLimit(1)
+                            .font(.callout)
+                            .foregroundColor(.orange)
+                            .padding(.horizontal, 12)
+                            .padding(.leading, -36)
+                        Spacer()
+                    }
+                }
+                TDTagViewSUI(
+                    presenter: presenter,
+                    viewModel.filteredTags,
+                    tagFont: .callout,
+                    padding: 20,
+                    parentWidth: 600) { tag in
+                        self.viewModel.makeSearchContent(presenter: presenter, tag: tag, font: .callout)
+                    }
+            }
+            .padding()
+            .searchable(text: self.$viewModel.searchText, placement: .toolbar, prompt: "Tag Search")
+            .onChange(of: self.viewModel.searchText) { searchText in
+                if searchText.isEmpty && !isSearching {
+                    self.presenter.onCancelSearch()
+                }
+            }            
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("Add Tags")
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button(action: {
+                    self.presenter.onSave(tags: viewModel.selectedTags)
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Text("Save")
+                })
+                .disabled(viewModel.selectedTags.count == 0)
+            }
+            ToolbarItemGroup(placement: .navigationBarLeading) {
+                Button(action: {
+                    self.presentationMode.wrappedValue.dismiss()
+                }, label: {
+                    Text("Cancel")
+                })
+            }
+        }
+        
+    }
+}
+
 #if DEBUG
 
 struct TDTagSearchSUI_Previews: PreviewProvider {
     
     static var previews: some View {
         TDTagSearchSUI(presenter: MockPresenter(), viewModel: TDTagSearchViewModel.mock())
+            .previewLayout(.sizeThatFits)
     }
 }
 
