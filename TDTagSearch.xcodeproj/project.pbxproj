@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E135DE78284147840089BCAC /* TDSearchBarSUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E135DE77284147840089BCAC /* TDSearchBarSUI.swift */; };
 		E135DE7C2842D4C20089BCAC /* String+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E135DE7B2842D4C20089BCAC /* String+Utils.swift */; };
+		E135DE7E28448FCD0089BCAC /* Color+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E135DE7D28448FCD0089BCAC /* Color+Utils.swift */; };
 		E154636A283FAE1600D142D0 /* TDTagSearchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1546369283FAE1600D142D0 /* TDTagSearchApp.swift */; };
 		E154636E283FAE1600D142D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E154636D283FAE1600D142D0 /* Assets.xcassets */; };
 		E1546371283FAE1600D142D0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E1546370283FAE1600D142D0 /* Preview Assets.xcassets */; };
@@ -53,6 +54,7 @@
 		E135DE77284147840089BCAC /* TDSearchBarSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDSearchBarSUI.swift; sourceTree = "<group>"; };
 		E135DE7928429F540089BCAC /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E135DE7B2842D4C20089BCAC /* String+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Utils.swift"; sourceTree = "<group>"; };
+		E135DE7D28448FCD0089BCAC /* Color+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Utils.swift"; sourceTree = "<group>"; };
 		E1546366283FAE1600D142D0 /* TDTagSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TDTagSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E1546369283FAE1600D142D0 /* TDTagSearchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TDTagSearchApp.swift; sourceTree = "<group>"; };
 		E154636D283FAE1600D142D0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 		E15463B4283FB4DF00D142D0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				E135DE7D28448FCD0089BCAC /* Color+Utils.swift */,
 				E135DE7B2842D4C20089BCAC /* String+Utils.swift */,
 			);
 			path = Utils;
@@ -411,6 +414,7 @@
 				E15463A6283FB12300D142D0 /* TDTagViewSUI.swift in Sources */,
 				E15463B7283FB54E00D142D0 /* TDTagSearchInteractor.swift in Sources */,
 				E15463BD283FC40B00D142D0 /* TDTagSearchRouter.swift in Sources */,
+				E135DE7E28448FCD0089BCAC /* Color+Utils.swift in Sources */,
 				E135DE78284147840089BCAC /* TDSearchBarSUI.swift in Sources */,
 				E154636A283FAE1600D142D0 /* TDTagSearchApp.swift in Sources */,
 				E15463B3283FB4B500D142D0 /* TDTagSearchViewModel.swift in Sources */,
