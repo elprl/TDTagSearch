@@ -34,13 +34,10 @@ struct TDSearchBarSUI: View {
                         }
                     }
                 )
-//                .focused($isFocused)
-//                .onChange(of: isFocused) { isFocused in
-//                    self.viewModel.isSearching = isFocused
-//                }
-//                .onChange(of: self.viewModel.isSearching) { isSearching in
-//                     isFocused = isSearching
-//                }
+                .focused($isFocused)
+                .onChange(of: isFocused) { isFocused in
+                    self.viewModel.isSearching = isFocused
+                }
             Spacer()
         }
     }

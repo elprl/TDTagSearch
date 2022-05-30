@@ -89,14 +89,14 @@ struct TDTagSearchScrollViewSUI: View {
                     parentWidth: 600) { tag in
                         self.viewModel.makeSearchContent(presenter: presenter, tag: tag, font: .callout)
                     }
+                    .searchable(text: self.$viewModel.searchText, placement: .toolbar, prompt: "Tag Search")
+                    .onChange(of: self.viewModel.searchText) { searchText in
+                        if searchText.isEmpty && !isSearching {
+                            self.presenter.onCancelSearch()
+                        }
+                    }
             }
             .padding()
-            .searchable(text: self.$viewModel.searchText, placement: .toolbar, prompt: "Tag Search")
-            .onChange(of: self.viewModel.searchText) { searchText in
-                if searchText.isEmpty && !isSearching {
-                    self.presenter.onCancelSearch()
-                }
-            }            
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Add Tags")

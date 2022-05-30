@@ -149,11 +149,9 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
     }
     
     func onCancelSearch() {
-        DispatchQueue.main.async {
-            self.viewModel.searchText = ""
-            self.viewModel.selectedPath = nil
-            self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
-        }
+        self.viewModel.searchText = ""
+        self.viewModel.selectedPath = nil
+        self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
     }
 }
 

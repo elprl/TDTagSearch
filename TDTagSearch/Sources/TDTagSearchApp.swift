@@ -9,7 +9,6 @@ import SwiftUI
 
 @main
 struct TDTagSearchApp: App {
-    @State private var showPopover: Bool = false
     
     init() {
         let appearance = UINavigationBarAppearance()
@@ -40,18 +39,29 @@ struct TDTagSearchApp: App {
 
     var body: some Scene {
         WindowGroup {
-            VStack {
-                Button("Show popover") {
-                    self.showPopover = true
-                }.popover(
-                    isPresented: self.$showPopover,
-                    arrowEdge: .bottom
-                ) {
-                    TDTagSearchRouter().build()
-                        .frame(width: 600, height: 400, alignment: .center)
-                }
+            RootContentView()
+        }
+    }
+}
+
+struct RootContentView: View {
+    @State private var showPopover: Bool = false
+    let viewModel = TDTagSearchViewModel()
+
+    var body: some View {
+#if DEBUG
+        let _ = Self._printChanges()
+#endif
+        VStack {
+            Button("Show popover") {
+                self.showPopover = true
+            }.popover(
+                isPresented: self.$showPopover,
+                arrowEdge: .bottom
+            ) {
+                TDTagSearchRouter().build(viewModel: viewModel)
+                    .frame(width: 600, height: 400, alignment: .center)
             }
-            
         }
     }
 }
