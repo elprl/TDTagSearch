@@ -48,16 +48,18 @@ extension TDTagSearchViewModel {
     }
     
     func color(from tag: String) -> Color {
-        switch tag.prefix(1).lowercased() {
-        case "a"..."e": return .red
-        case "f"..."k": return .green
-        case "l"..."p": return .blue
-        case "q"..."u": return .orange
+        switch tag.prefix(2).lowercased() {
+        case "ar": return Color(hex: "1C5D5D")!
+        case "co": return Color(hex: "662022")!
+        case "de": return Color(hex: "B17130")!
+        case "do": return Color(hex: "398797")!
+        case "pr": return .green
+        case "re": return Color(hex: "66622E")!
+        case "se": return Color(hex: "DA4832")!
         default: return .gray
         }
     }
 }
-
 
 #if DEBUG
 

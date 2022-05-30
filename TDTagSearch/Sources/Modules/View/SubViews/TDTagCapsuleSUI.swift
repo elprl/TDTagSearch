@@ -20,15 +20,16 @@ struct TDTagCapsuleSUI: View {
     var cornerRadius: CGFloat = 12.0
     
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(alignment: .center, spacing: 4) {
             Text(parentText)
                 .foregroundColor(.white)
                 .padding(.leading, cornerRadius/2)
-                .padding(.trailing, 4)
+                .padding(.trailing, 6)
                 .padding(.bottom, 1)
                 .background(color)
             if let childText = self.childText {
                 Text(childText)
+                    .padding(.leading, 2)
                     .padding(.trailing, cornerRadius/2)
                     .padding(.bottom, 1)
             }
@@ -59,7 +60,11 @@ struct TDTagCapsuleSUI: View {
 struct TDTagCapsuleSUI_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns")
+            TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: "|Architecture/|patterns", parentText: "|Architecture|", childText: "|patterns|")
+                .padding(2)
+                .previewLayout(.sizeThatFits)
+            
+            TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: "|Architecture/", parentText: "|Architecture|", childText: nil)
                 .padding(2)
                 .previewLayout(.sizeThatFits)
             
