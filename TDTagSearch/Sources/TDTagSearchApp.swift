@@ -59,8 +59,12 @@ struct RootContentView: View {
                 isPresented: self.$showPopover,
                 arrowEdge: .bottom
             ) {
-                TDTagSearchRouter().build(viewModel: viewModel)
-                    .frame(width: 600, height: 400, alignment: .center)
+                if UIDevice.current.userInterfaceIdiom == .pad {
+                    TDTagSearchRouter().build(viewModel: viewModel)
+                        .frame(width: 600, height: 300, alignment: .center)
+                } else {
+                    TDTagSearchRouter().build(viewModel: viewModel)
+                }
             }
         }
     }

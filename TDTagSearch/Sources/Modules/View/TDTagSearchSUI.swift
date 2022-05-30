@@ -41,62 +41,68 @@ struct TDTagSearchScrollViewSUI: View {
 #if DEBUG
         let _ = Self._printChanges()
 #endif
-        //        GeometryReader { proxy in
-        ScrollView {
-            VStack(alignment: .leading) {
-                if self.viewModel.selectedTags.count > 0 {
-                    Text("Selected Tags:")
-                        .lineLimit(1)
-                        .font(.callout)
-                        .foregroundColor(.orange)
-                    
-                    TDTagViewSUI(
-                        presenter: presenter,
-                        viewModel.selectedTags,
-                        tagFont: .callout,
-                        padding: 20,
-                        parentWidth: 600 - 90) { tag in
-                            self.viewModel.makeSelectedContent(presenter: presenter, tag: tag, font: .callout)
-                        }
-                    Divider()
-                }
-                if self.viewModel.selectedPath != nil {
-                    HStack {
-                        Button {
-                            self.presenter.onBack()
-                        } label: {
-                            Text("< Back")
-                                .lineLimit(1)
-                                .font(.callout)
-                                .foregroundColor(.orange)
-                                .padding(.vertical, 2)
-                        }
-                        Spacer()
-                        Text(self.viewModel.selectedPath ?? "")
+        GeometryReader { proxy in
+            ScrollView {
+                VStack(alignment: .leading) {
+                    if self.viewModel.selectedTags.count > 0 {
+                        Text("Selected Tags:")
                             .lineLimit(1)
                             .font(.callout)
                             .foregroundColor(.orange)
-                            .padding(.horizontal, 12)
-                            .padding(.leading, -36)
-                        Spacer()
+                        
+                        TDTagViewSUI(
+                            presenter: presenter,
+                            viewModel.selectedTags,
+                            tagFont: .callout,
+                            padding: 20,
+                            parentWidth: proxy.size.width - 90) { tag in
+                                self.viewModel.makeSelectedContent(presenter: presenter, tag: tag, font: .callout)
+                            }
+                            .padding(8)
+                            .background(RoundedRectangle(cornerRadius: 12).fill(.gray.opacity(0.2)))
+                        
+                        Divider()
                     }
-                }
-                TDTagViewSUI(
-                    presenter: presenter,
-                    viewModel.filteredTags,
-                    tagFont: .callout,
-                    padding: 20,
-                    parentWidth: 600) { tag in
-                        self.viewModel.makeSearchContent(presenter: presenter, tag: tag, font: .callout)
-                    }
-                    .searchable(text: self.$viewModel.searchText, placement: .toolbar, prompt: "Tag Search")
-                    .onChange(of: self.viewModel.searchText) { searchText in
-                        if searchText.isEmpty && !isSearching {
-                            self.presenter.onCancelSearch()
+                    if self.viewModel.selectedPath != nil {
+                        HStack {
+                            Button {
+                                self.presenter.onBack()
+                            } label: {
+                                Text("< Back")
+                                    .lineLimit(1)
+                                    .font(.callout)
+                                    .foregroundColor(.orange)
+                                    .padding(.vertical, 2)
+                            }
+                            Spacer()
+                            Text(self.viewModel.selectedPath ?? "")
+                                .lineLimit(1)
+                                .font(.callout)
+                                .foregroundColor(.orange)
+                                .padding(.horizontal, 12)
+                                .padding(.leading, -36)
+                            Spacer()
                         }
                     }
+                    TDTagViewSUI(
+                        presenter: presenter,
+                        viewModel.filteredTags,
+                        tagFont: .callout,
+                        padding: 20,
+                        parentWidth: proxy.size.width) { tag in
+                            self.viewModel.makeSearchContent(presenter: presenter, tag: tag, font: .callout)
+                        }
+                        .padding(8)
+                        .background(RoundedRectangle(cornerRadius: 12).fill(.gray.opacity(0.2)))
+                        .searchable(text: self.$viewModel.searchText, placement: .toolbar, prompt: "Tag Search")
+                        .onChange(of: self.viewModel.searchText) { searchText in
+                            if searchText.isEmpty && !isSearching {
+                                self.presenter.onCancelSearch()
+                            }
+                        }
+                }
+                .padding()
             }
-            .padding()
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Add Tags")

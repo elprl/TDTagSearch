@@ -99,7 +99,6 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
                 print("searchText receiveCompletion")
             }, receiveValue: { searchText in
                 print("searchText receiveValue \(searchText)")
-                self.viewModel.selectedPath = nil
                 self.viewModel.filteredTags = self.viewModel.tags.filter { $0.lowercased().contains(searchText) }
             })
             .store(in: &cancellables)
@@ -149,8 +148,6 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
     }
     
     func onCancelSearch() {
-        self.viewModel.searchText = ""
-        self.viewModel.selectedPath = nil
         self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
     }
 }
