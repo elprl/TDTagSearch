@@ -109,7 +109,7 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
     }
     
     func onSave(tags: [String]) {
-        
+        self.viewModel.hasFinished = true
     }
     
     func onTap(tag: String) {

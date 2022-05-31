@@ -24,6 +24,7 @@ final public class TDTagSearchViewModel: ObservableObject {
     @Published var selectedPath: String? = nil
     @Published var loadingState: LoadingState = .initial
     @Published var isSearching: Bool = false
+    @Published public var hasFinished: Bool = false
     @Published var searchText: String = "" {
         didSet {
             if searchText.count > 20 && oldValue.count <= 20 {

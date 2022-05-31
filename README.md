@@ -13,6 +13,7 @@ The data structure for all the defect tags is a JSON file located here: [tags.js
 ## How to use
 - Install via SPM - File -> Add Packages... -> https://github.com/elprl/TDTagSearch .
 - Add a **tags.json** file to your project in the format mentioned above. Parent tags (or categories) required to end with a forward slash (e.g. "Architecture/"), usable (child) tags must not (e.g. "Architecture/Interface").  
+- Observe the view model for changes.
 
 ### Code
 ```swift
@@ -23,8 +24,10 @@ struct ContentView: View {
     
     var body: some View {
         TDTagSearchRouter().build(viewModel: viewModel)
-            .onChange(of: viewModel.selectedTags) { newValue in
+            .onChange(of: viewModel.hasFinished) { hasFinished in
+                debugPrint(viewModel.filteredTags)
                 debugPrint(viewModel.selectedTags)
+                debugPrint(hasFinished)
             }
     }
 }
