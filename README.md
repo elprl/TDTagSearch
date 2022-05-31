@@ -5,8 +5,20 @@ The [PeerWalk app](https://www.tapdigital.com/peerwalk.html) is designed to enab
 ![screenshot](https://github.com/elprl/TDTagSearch/blob/master/screenshot.png)
 
 ## Defect Tag Tree
-The data structure for all the defect tags is a JSON file located here: [defect_tags.json](https://github.com/elprl/TDTagSearch/blob/master/TDTagSearch/defect_tags.json). Please give feedback and suggestions either via the [Issues](https://github.com/elprl/TDTagSearch/issues) tab or with Pull Requests.
+The data structure for all the defect tags is a JSON file located here: [tags.json](https://github.com/elprl/TDTagSearch/blob/master/TDTagSearch/tags.json). Please give feedback and suggestions either via the [Issues](https://github.com/elprl/TDTagSearch/issues) tab or with Pull Requests.
 
 ## Adapted from   
 [https://github.com/giiiita/TagLayoutView](https://github.com/giiiita/TagLayoutView)
 
+## How to use
+Install via SPM - File -> Add Packages... -> https://github.com/elprl/TDTagSearch
+Add a **tags.json** file to your project in the format mentioned above. Parent tags (or categories) required to end with a forward slash (e.g. "Architecture/"), usable (child) tags must not (e.g. "Architecture/Interface").  
+
+### Code
+```swift
+struct ContentView: View {
+    var body: some View {
+        TDTagSearchRouter().build()
+    }
+}
+```
