@@ -18,8 +18,8 @@ public enum LoadingState: String {
 
 final public class TDTagSearchViewModel: ObservableObject {
     @Published var tags: [String] = []
-    @Published var filteredTags: [String] = []
-    @Published var selectedTags: [String] = []
+    @Published public var filteredTags: [String] = []
+    @Published public var selectedTags: [String] = []
     @Published var selectedTag: String? = nil
     @Published var selectedPath: String? = nil
     @Published var loadingState: LoadingState = .initial

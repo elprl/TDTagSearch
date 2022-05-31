@@ -16,9 +16,16 @@ The data structure for all the defect tags is a JSON file located here: [tags.js
 
 ### Code
 ```swift
+import TDTagSearch 
+
 struct ContentView: View {
+    @StateObject var viewModel: TDTagSearchViewModel
+    
     var body: some View {
-        TDTagSearchRouter().build()
+        TDTagSearchRouter().build(viewModel: viewModel)
+            .onChange(of: viewModel.selectedTags) { newValue in
+                debugPrint(viewModel.selectedTags)
+            }
     }
 }
 ```
