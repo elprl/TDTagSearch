@@ -66,7 +66,7 @@ final public class TDTagSearchPresenter {
 
 extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
     func onAppear() {
-        self.interactor.fetchTagList()
+        self.interactor.fetchTagList(path: Bundle.module.path(forResource: "tags", ofType: "json"))
             .subscribe(on: DispatchQueue.global(qos: .background))
             .compactMap({ tags -> ([String], [String]) in
                 return (tags, tags.filter(self.treeFilter))

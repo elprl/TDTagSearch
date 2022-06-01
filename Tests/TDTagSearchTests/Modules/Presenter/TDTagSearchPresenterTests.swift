@@ -11,16 +11,16 @@ import XCTest
 import Combine
 @testable import TDTagSearch
 
-public class MockInteractor: TDTagSearchInteractorPresenterInterface {
-    public func fetchTagList() -> AnyPublisher<[String], Error> {
-        let mockArray: [String] = ["Architecture/", "Architecture/Clean/", "Architecture/Clean/Interface"]
-        return Just(mockArray)
-            .setFailureType(to: Error.self)
-            .eraseToAnyPublisher()
-    }
-}
-
 class TDTagSearchPresenterTests: XCTestCase {
+    
+    public class MockInteractor: TDTagSearchInteractorPresenterInterface {
+        public func fetchTagList(path: String?) -> AnyPublisher<[String], Error> {
+            let mockArray: [String] = ["Architecture/", "Architecture/Clean/", "Architecture/Clean/Interface"]
+            return Just(mockArray)
+                .setFailureType(to: Error.self)
+                .eraseToAnyPublisher()
+        }
+    }
 
     override func setUpWithError() throws { }
     override func tearDownWithError() throws { }
@@ -135,8 +135,8 @@ class TDTagSearchPresenterTests: XCTestCase {
         expect(viewModel.filteredTags).toEventually(contain(tag))
         expect(viewModel.filteredTags.count).toEventually(equal(3))
         
-//        viewModel.searchText = tag
-//        expect(viewModel.filteredTags).toEventually(contain(tag))
-//        expect(viewModel.filteredTags.count).toEventually(equal(1))
+        viewModel.searchText = "face"
+        expect(viewModel.filteredTags).toEventually(contain(tag))
+        expect(viewModel.filteredTags.count).toEventually(equal(1))
     }
 }

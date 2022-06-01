@@ -11,7 +11,7 @@ import Foundation
 import Combine
 
 protocol TDTagSearchInteractorPresenterInterface: AnyObject {
-    func fetchTagList() -> AnyPublisher<[String], Error>
+    func fetchTagList(path: String?) -> AnyPublisher<[String], Error>
 }
 
 final public class TDTagSearchInteractor {
@@ -19,13 +19,13 @@ final public class TDTagSearchInteractor {
 }
 
 extension TDTagSearchInteractor: TDTagSearchInteractorPresenterInterface {
-    func fetchTagList() -> AnyPublisher<[String], Error> {
+    func fetchTagList(path: String? = Bundle.module.path(forResource: "tags", ofType: "json")) -> AnyPublisher<[String], Error> {
         // fetch your data from API here
         
         // mocking
         return Future<[String], Error> { promise in
             DispatchQueue.global().async {
-                if let path = Bundle.main.path(forResource: "tags", ofType: "json") {
+                if let path = path {
                     do {
                         let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                         let decoder = JSONDecoder()

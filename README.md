@@ -8,7 +8,7 @@ The [PeerWalk app](https://www.tapdigital.com/peerwalk.html) is designed to enab
 [https://github.com/giiiita/TagLayoutView](https://github.com/giiiita/TagLayoutView)
 
 ## Tag Tree
-The data structure for all the defect tags is a JSON file located here: [tags.json](https://github.com/elprl/TDTagSearch/blob/master/Sources/TDTagSearch/Excludes/tags.json). Please give feedback and suggestions either via the [Issues](https://github.com/elprl/TDTagSearch/issues) tab or with Pull Requests.
+The data structure for all the defect tags is a JSON file located here: [tags.json](https://github.com/elprl/TDTagSearch/blob/master/Sources/TDTagSearch/Resources/tags.json). Please give feedback and suggestions either via the [Issues](https://github.com/elprl/TDTagSearch/issues) tab or with Pull Requests.
 
 ## How to use
 - Install via SPM - File -> Add Packages... -> https://github.com/elprl/TDTagSearch .
