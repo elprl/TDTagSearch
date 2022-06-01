@@ -46,6 +46,7 @@ struct TDTagSearchScrollViewSUI: View {
                 VStack(alignment: .leading) {
                     if self.viewModel.selectedTags.count > 0 {
                         Text("Selected Tags:")
+                            .tag("sectionLabel")
                             .lineLimit(1)
                             .font(.callout)
                             .foregroundColor(.orange)
@@ -58,6 +59,7 @@ struct TDTagSearchScrollViewSUI: View {
                             parentWidth: proxy.size.width - 90) { tag in
                                 self.viewModel.makeSelectedContent(presenter: presenter, tag: tag, font: .callout)
                             }
+                            .tag("selectedTags")
                             .padding(8)
                             .background(RoundedRectangle(cornerRadius: 12).fill(.gray.opacity(0.2)))
                         
@@ -74,8 +76,10 @@ struct TDTagSearchScrollViewSUI: View {
                                     .foregroundColor(.orange)
                                     .padding(.vertical, 2)
                             }
+                            .tag("backBtn")
                             Spacer()
                             Text(self.viewModel.selectedPath ?? "")
+                                .tag("selectedPathText")
                                 .lineLimit(1)
                                 .font(.callout)
                                 .foregroundColor(.orange)
@@ -92,6 +96,7 @@ struct TDTagSearchScrollViewSUI: View {
                         parentWidth: proxy.size.width) { tag in
                             self.viewModel.makeSearchContent(presenter: presenter, tag: tag, font: .callout)
                         }
+                        .tag("filteredTags")
                         .padding(8)
                         .background(RoundedRectangle(cornerRadius: 12).fill(.gray.opacity(0.2)))
                         .searchable(text: self.$viewModel.searchText, placement: .toolbar, prompt: "Tag Search")
@@ -114,6 +119,7 @@ struct TDTagSearchScrollViewSUI: View {
                 }, label: {
                     Text("Save")
                 })
+                .tag("saveBtn")
                 .disabled(viewModel.selectedTags.count == 0)
             }
             ToolbarItemGroup(placement: .navigationBarLeading) {
@@ -122,6 +128,7 @@ struct TDTagSearchScrollViewSUI: View {
                 }, label: {
                     Text("Cancel")
                 })
+                .tag("cancelBtn")
             }
         }
         
