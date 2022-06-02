@@ -8,11 +8,21 @@ The [PeerWalk app](https://www.tapdigital.com/peerwalk.html) is designed to enab
 [https://github.com/giiiita/TagLayoutView](https://github.com/giiiita/TagLayoutView)
 
 ## Tag Tree
-The data structure for all the defect tags is a JSON file located here: [tags.json](https://github.com/elprl/TDTagSearch/blob/master/Sources/TDTagSearch/Resources/tags.json). Please give feedback and suggestions either via the [Issues](https://github.com/elprl/TDTagSearch/issues) tab or with Pull Requests.
+The data structure for all the defect tags is a JSON file located here: [tags.json](https://github.com/elprl/TDTagSearch/blob/master/Sources/TDTagSearch/Resources/tags.json). Please give feedback and suggestions either via the [Issues](https://github.com/elprl/TDTagSearch/issues) tab or with Pull Requests. Parent tags (or categories) required to end with a forward slash (e.g. "Architecture/"), usable (child) tags must not (e.g. "Architecture/Patterns/Creational/Builder"). For example:
+
+```json
+[
+  "Architecture/",
+  "Architecture/Patterns/",
+  "Architecture/Patterns/Creational/",
+  "Architecture/Patterns/Creational/Abstract factory",
+  "Architecture/Patterns/Creational/Builder",
+]
+```
 
 ## How to use
 - Install via SPM - File -> Add Packages... -> https://github.com/elprl/TDTagSearch .
-- Add a **tags.json** file to your project in the format mentioned above. Parent tags (or categories) required to end with a forward slash (e.g. "Architecture/"), usable (child) tags must not (e.g. "Architecture/Interface").  
+- Add a **tags.json** file to your project in the format mentioned above.  
 - Observe the view model for changes.
 
 ### Example Code
@@ -21,9 +31,10 @@ import TDTagSearch
 
 struct ContentView: View {
     @StateObject var viewModel: TDTagSearchViewModel
+    let myTags = Bundle.main.path(forResource: "tags", ofType: "json")
     
     var body: some View {
-        TDTagSearchRouter().build(viewModel: viewModel)
+        TDTagSearchRouter().build(viewModel: viewModel, tagFilePath: myTags)
             .onChange(of: viewModel.hasFinished) { hasFinished in
                 debugPrint(viewModel.filteredTags)
                 debugPrint(viewModel.selectedTags)

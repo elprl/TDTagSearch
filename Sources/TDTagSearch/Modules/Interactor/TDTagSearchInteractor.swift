@@ -11,21 +11,22 @@ import Foundation
 import Combine
 
 protocol TDTagSearchInteractorPresenterInterface: AnyObject {
-    func fetchTagList(path: String?) -> AnyPublisher<[String], Error>
+    func fetchTagList() -> AnyPublisher<[String], Error>
 }
 
 final public class TDTagSearchInteractor {
     weak var presenter: TDTagSearchPresenterInteractorInterface!
+    var filePath: String? = Bundle.module.path(forResource: "tags", ofType: "json")
 }
 
 extension TDTagSearchInteractor: TDTagSearchInteractorPresenterInterface {
-    func fetchTagList(path: String? = Bundle.module.path(forResource: "tags", ofType: "json")) -> AnyPublisher<[String], Error> {
+    func fetchTagList() -> AnyPublisher<[String], Error> {
         // fetch your data from API here
         
-        // mocking
+        // or use a file 
         return Future<[String], Error> { promise in
             DispatchQueue.global().async {
-                if let path = path {
+                if let path = self.filePath {
                     do {
                         let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
                         let decoder = JSONDecoder()
