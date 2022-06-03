@@ -19,33 +19,38 @@ class TDTagSearchInteractorTests: XCTestCase {
 
     func testFetchTagList() throws {
         let interactor = TDTagSearchInteractor()
-        interactor.fetchTagList(path: Bundle.module.path(forResource: "tags", ofType: "json"))
+        var myTags: [String] = []
+        interactor.fetchTagList()
             .sink { completion in
                 switch completion {
                 case .finished: print("🏁 finished")
                 case .failure(let error): print("❗️ failure: \(error)")
                 }
             } receiveValue: { tags in
-                expect(tags.count).to(beGreaterThan(0))
+                myTags = tags
             }
             .store(in: &cancellables)
+        
+        expect(myTags.count).toEventually(beGreaterThan(0))
     }
     
     func testFetchError() throws {
         let interactor = TDTagSearchInteractor()
-        interactor.fetchTagList(path: nil)
+        var myTags: [String] = []
+        interactor.fetchTagList()
             .sink { completion in
                 switch completion {
-                case .finished: print("🏁 finished")
+                case .finished:
+                    print("🏁 finished")
                 case .failure(let error as NSError):
                     expect(error).toNot(beNil())
                     expect(error.code).to(equal(400))
                     expect(error.domain).to(equal("Error: Failed to load tags from file"))
                 }
-            } receiveValue: { _ in
-
+            } receiveValue: { tags in
+                myTags = tags
             }
             .store(in: &cancellables)
+        expect(myTags).toEventually(beEmpty())
     }
-
 }

@@ -13,8 +13,8 @@ import Combine
 
 class TDTagSearchPresenterTests: XCTestCase {
     
-    public class MockInteractor: TDTagSearchInteractorPresenterInterface {
-        public func fetchTagList(path: String?) -> AnyPublisher<[String], Error> {
+    public class MockInteractor: TDTagSearchInteractorPresenterInterface {        
+        public func fetchTagList() -> AnyPublisher<[String], Error> {
             let mockArray: [String] = ["Architecture/", "Architecture/Clean/", "Architecture/Clean/Interface"]
             return Just(mockArray)
                 .setFailureType(to: Error.self)
