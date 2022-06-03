@@ -11,7 +11,7 @@ public struct TDSearchBarSUI: View {
     @EnvironmentObject var viewModel: TDTagSearchViewModel
     @FocusState private var isFocused: Bool
 
-    var body: some View {
+    public var body: some View {
         HStack {
             TextField("Search Tags", text: $viewModel.searchText)
                 .padding(.horizontal, 36)

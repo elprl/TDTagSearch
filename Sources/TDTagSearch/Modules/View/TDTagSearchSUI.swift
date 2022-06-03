@@ -37,7 +37,7 @@ public struct TDTagSearchScrollViewSUI: View {
     @Environment(\.isSearching) private var isSearching
     @Environment(\.dismissSearch) private var dismissSearch
     
-    var body: some View {
+    public var body: some View {
 #if DEBUG
         let _ = Self._printChanges()
 #endif

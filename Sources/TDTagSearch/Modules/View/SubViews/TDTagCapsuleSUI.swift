@@ -19,7 +19,7 @@ public struct TDTagCapsuleSUI: View {
     var isSelected: Bool = false
     var cornerRadius: CGFloat = 12.0
     
-    var body: some View {
+    public var body: some View {
         HStack(alignment: .center, spacing: 4) {
             Text(parentText)
                 .foregroundColor(.white)

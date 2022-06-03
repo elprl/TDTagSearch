@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-protocol TDTagSearchPresenterViewInterface: AnyObject {
+public protocol TDTagSearchPresenterViewInterface: AnyObject {
     func onAppear()
     func onDisappear()
     func onSave(tags: [String])
@@ -30,7 +30,7 @@ class MockPresenter: TDTagSearchPresenterViewInterface {
 }
 #endif
 
-protocol TDTagSearchPresenterInteractorInterface: AnyObject {
+public protocol TDTagSearchPresenterInteractorInterface: AnyObject {
 
 }
 
@@ -65,7 +65,7 @@ final public class TDTagSearchPresenter {
 }
 
 extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
-    func onAppear() {
+    public func onAppear() {
         self.interactor.fetchTagList()
             .subscribe(on: DispatchQueue.global(qos: .background))
             .compactMap({ tags -> ([String], [String]) in
@@ -104,15 +104,15 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
             .store(in: &cancellables)
     }
     
-    func onDisappear() {
+    public func onDisappear() {
         self.cancellables.removeAll()
     }
     
-    func onSave(tags: [String]) {
+    public func onSave(tags: [String]) {
         self.viewModel.hasFinished = true
     }
     
-    func onTap(tag: String) {
+    public func onTap(tag: String) {
         if tag.hasSuffix("/") {
             print("selectedPath = \(tag)")
             self.viewModel.selectedPath = tag
@@ -122,13 +122,13 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
         }
     }
     
-    func onDismiss(tag: String) {
+    public func onDismiss(tag: String) {
         if let index = self.viewModel.selectedTags.firstIndex(of: tag) {
             self.viewModel.selectedTags.remove(at: index)
         }
     }
     
-    func onBack() {
+    public func onBack() {
         if let path = self.viewModel.selectedPath {
             var subStrings = path.components(separatedBy: "/")
             if subStrings.count <= 2 {
@@ -147,7 +147,7 @@ extension TDTagSearchPresenter: TDTagSearchPresenterViewInterface {
         }
     }
     
-    func onCancelSearch() {
+    public func onCancelSearch() {
         self.viewModel.filteredTags = self.viewModel.tags.filter(self.treeFilter)
     }
 }

@@ -8,14 +8,14 @@
 
 import SwiftUI
 
-enum TagStyle {
+public enum TagStyle {
     case parentChild
     case rootChild
     case childOnly
 }
 
 public struct TDTagViewSUI<Content>: View where Content: View {
-    var presenter: TDTagSearchPresenterViewInterface
+    public var presenter: TDTagSearchPresenterViewInterface
 
     private let tags: [String]
     private var tagFont: Font
