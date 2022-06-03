@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct TDTagCapsuleSUI: View {
+public struct TDTagCapsuleSUI: View {
     var presenter: TDTagSearchPresenterViewInterface
 
     var color: Color = .red

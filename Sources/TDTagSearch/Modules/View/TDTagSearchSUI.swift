@@ -30,7 +30,7 @@ public struct TDTagSearchSUI: View {
     }
 }
 
-struct TDTagSearchScrollViewSUI: View {
+public struct TDTagSearchScrollViewSUI: View {
     var presenter: TDTagSearchPresenterViewInterface!
     @EnvironmentObject var viewModel: TDTagSearchViewModel
     @Environment(\.presentationMode) private var presentationMode

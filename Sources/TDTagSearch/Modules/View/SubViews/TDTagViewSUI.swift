@@ -14,7 +14,7 @@ enum TagStyle {
     case childOnly
 }
 
-struct TDTagViewSUI<Content>: View where Content: View {
+public struct TDTagViewSUI<Content>: View where Content: View {
     var presenter: TDTagSearchPresenterViewInterface
 
     private let tags: [String]

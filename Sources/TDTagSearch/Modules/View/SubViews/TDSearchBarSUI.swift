@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TDSearchBarSUI: View {
+public struct TDSearchBarSUI: View {
     @EnvironmentObject var viewModel: TDTagSearchViewModel
     @FocusState private var isFocused: Bool
 
