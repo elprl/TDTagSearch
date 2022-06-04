@@ -52,7 +52,6 @@ public struct TDTagSearchScrollViewSUI: View {
                             .foregroundColor(.orange)
                         
                         TDTagViewSUI(
-                            presenter: presenter,
                             viewModel.selectedTags,
                             tagFont: .callout,
                             padding: 20,
@@ -89,7 +88,6 @@ public struct TDTagSearchScrollViewSUI: View {
                         }
                     }
                     TDTagViewSUI(
-                        presenter: presenter,
                         viewModel.filteredTags,
                         tagFont: .callout,
                         padding: 20,

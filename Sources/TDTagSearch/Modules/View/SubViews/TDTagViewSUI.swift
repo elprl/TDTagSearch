@@ -15,8 +15,6 @@ public enum TagStyle {
 }
 
 public struct TDTagViewSUI<Content>: View where Content: View {
-    public var presenter: TDTagSearchPresenterViewInterface
-
     private let tags: [String]
     private var tagFont: Font
     private let padding: CGFloat
@@ -25,14 +23,12 @@ public struct TDTagViewSUI<Content>: View where Content: View {
     private var elementsCountByRow: [Int] = []
     private let tagStyle: TagStyle
     
-    public init(presenter: TDTagSearchPresenterViewInterface,
-                _ tags: [String],
+    public init(_ tags: [String],
                 tagFont: Font,
                 padding: CGFloat,
                 parentWidth: CGFloat,
                 tagStyle: TagStyle = .parentChild,
                 content: @escaping (String) -> Content) {
-        self.presenter = presenter
         self.tags = tags
         self.tagFont = tagFont
         self.padding = padding
@@ -86,12 +82,7 @@ public struct TDTagViewSUI<Content>: View where Content: View {
             ForEach(0 ..< self.elementsCountByRow.count, id: \.self) { rowIndex in
                 HStack {
                     ForEach(0 ..< self.elementsCountByRow[rowIndex], id: \.self) { elementIndex in
-                        Button {
-                            let selectedTag = self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex)
-                            self.presenter.onTap(tag: selectedTag)
-                        } label: {
-                            self.content(self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex))
-                        }
+                        self.content(self.getTag(elementsCountByRow: self.elementsCountByRow, rowIndex: rowIndex, elementIndex: elementIndex))
                     }
                     Spacer()
                 }.padding(.vertical, 4)
@@ -137,7 +128,6 @@ struct TDTagViewSUI_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             TDTagViewSUI(
-                presenter: MockPresenter(),
                 vm.tags,
                 tagFont: .caption,
                 padding: 20,
