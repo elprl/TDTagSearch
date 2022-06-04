@@ -43,13 +43,21 @@ extension TDTagSearchViewModel {
     func makeSelectedContent(presenter: TDTagSearchPresenterViewInterface, tag: String, font: Font = .caption, tagStyle: TagStyle = .parentChild) -> some View {
         let color = color(from: tag)
         let (parent, child) = tag.parse(with: tagStyle)
-        return TDTagCapsuleSUI(presenter: presenter, color: color, font: font, originalTag: tag, parentText: parent, childText: child, isSelected: true)
+        return TDTagCapsuleSUI(color: color, font: font, originalTag: tag, parentText: parent, childText: child, isSelected: true) { tag in
+            presenter.onTap(tag: tag)
+        } onDismiss: { tag in
+            presenter.onDismiss(tag: tag)
+        }
     }
     
     func makeSearchContent(presenter: TDTagSearchPresenterViewInterface, tag: String, font: Font = .caption, tagStyle: TagStyle = .parentChild) -> some View {
         let color = color(from: tag)
         let (parent, child) = tag.parse(with: tagStyle)
-        return TDTagCapsuleSUI(presenter: presenter, color: color, font: font, originalTag: tag, parentText: parent, childText: child)
+        return TDTagCapsuleSUI(color: color, font: font, originalTag: tag, parentText: parent, childText: child) { tag in
+            presenter.onTap(tag: tag)
+        } onDismiss: { tag in
+            presenter.onDismiss(tag: tag)
+        }
     }
     
     func color(from tag: String) -> Color {

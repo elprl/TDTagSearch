@@ -9,8 +9,6 @@
 import SwiftUI
 
 public struct TDTagCapsuleSUI: View {
-    var presenter: TDTagSearchPresenterViewInterface
-
     var color: Color = .red
     var font: Font = .callout
     var originalTag: String
@@ -18,10 +16,12 @@ public struct TDTagCapsuleSUI: View {
     var childText: String?
     var isSelected: Bool = false
     var cornerRadius: CGFloat = 12.0
-    
+    var onTap: ((String) -> ())?
+    var onDismiss: ((String) -> ())?
+
     public var body: some View {
         Button {
-            self.presenter.onTap(tag: originalTag)
+            self.onTap?(self.originalTag)
         } label: {
             HStack(alignment: .center, spacing: 4) {
                 Text(parentText)
@@ -38,7 +38,7 @@ public struct TDTagCapsuleSUI: View {
                 }
                 if isSelected {
                     Button {
-                        self.presenter.onDismiss(tag: self.originalTag)
+                        self.onDismiss?(self.originalTag)
                     } label: {
                         Image(systemName: "x.circle.fill")
                             .resizable()
@@ -64,31 +64,31 @@ public struct TDTagCapsuleSUI: View {
 struct TDTagCapsuleSUI_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: "|Architecture/|patterns", parentText: "|Architecture|", childText: "|patterns|")
+            TDTagCapsuleSUI(originalTag: "|Architecture/|patterns", parentText: "|Architecture|", childText: "|patterns|")
                 .padding(2)
                 .previewLayout(.sizeThatFits)
             
-            TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: "|Architecture/", parentText: "|Architecture|", childText: nil)
+            TDTagCapsuleSUI(originalTag: "|Architecture/", parentText: "|Architecture|", childText: nil)
                 .padding(2)
                 .previewLayout(.sizeThatFits)
             
-            TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns", isSelected: true)
+            TDTagCapsuleSUI(originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns", isSelected: true)
                 .padding(2)
                 .previewLayout(.sizeThatFits)
             
-            TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: "Architecture", parentText: "Architecture", childText: nil, isSelected: true)
+            TDTagCapsuleSUI(originalTag: "Architecture", parentText: "Architecture", childText: nil, isSelected: true)
                 .padding(2)
                 .previewLayout(.sizeThatFits)
             
-            TDTagCapsuleSUI(presenter: MockPresenter(), font: .title, originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns")
+            TDTagCapsuleSUI(font: .title, originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns")
                 .padding(2)
                 .previewLayout(.sizeThatFits)
             
-            TDTagCapsuleSUI(presenter: MockPresenter(), font: .title, originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns", isSelected: true)
+            TDTagCapsuleSUI(font: .title, originalTag: "Architecture/patterns", parentText: "Architecture", childText: "patterns", isSelected: true)
                 .padding(2)
                 .previewLayout(.sizeThatFits)
             
-            TDTagCapsuleSUI(presenter: MockPresenter(), font: .title, originalTag: "Architecture", parentText: "Architecture", childText: nil, isSelected: true)
+            TDTagCapsuleSUI(font: .title, originalTag: "Architecture", parentText: "Architecture", childText: nil, isSelected: true)
                 .padding(2)
                 .previewLayout(.sizeThatFits)
         }

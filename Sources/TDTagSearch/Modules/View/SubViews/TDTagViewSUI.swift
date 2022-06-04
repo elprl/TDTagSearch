@@ -132,7 +132,7 @@ struct TDTagViewSUI_Previews: PreviewProvider {
                 tagFont: .caption,
                 padding: 20,
                 parentWidth: 300) { tag in
-                    TDTagCapsuleSUI(presenter: MockPresenter(), originalTag: tag, parentText: tag)
+                    TDTagCapsuleSUI(originalTag: tag, parentText: tag)
                 }
                 .padding(.all, 16)
         }
