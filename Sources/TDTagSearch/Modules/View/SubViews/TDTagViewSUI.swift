@@ -127,17 +127,19 @@ struct TDTagViewSUI_Previews: PreviewProvider {
     
     static var previews: some View {
         VStack {
-            TDTagViewSUI(
-                vm.tags,
-                tagFont: .caption,
-                padding: 20,
-                parentWidth: 300) { tag in
-                    TDTagCapsuleSUI(originalTag: tag, parentText: tag)
-                }
-                .padding(.all, 16)
+            GeometryReader { proxy in
+                TDTagViewSUI(
+                    vm.tags,
+                    tagFont: .caption,
+                    padding: 20,
+                    parentWidth: proxy.size.width) { tag in
+                        TDTagCapsuleSUI(originalTag: tag, parentText: tag)
+                    }
+            }
         }
+        .padding(.all, 16)
         .environmentObject(vm)
-        .previewLayout(.sizeThatFits)
+        .previewLayout(.fixed(width: 400, height: 100))
     }
 }
 

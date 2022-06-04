@@ -18,6 +18,21 @@ public struct TDTagCapsuleSUI: View {
     var cornerRadius: CGFloat = 12.0
     var onTap: ((String) -> ())?
     var onDismiss: ((String) -> ())?
+    
+    public init(color: Color = .red, font: Font = .callout,
+                originalTag: String, parentText: String, childText: String? = nil,
+                isSelected: Bool = false, cornerRadius: CGFloat = 12.0,
+                onTap: ((String) -> ())? = nil, onDismiss: ((String) -> ())? = nil) {
+        self.color = color
+        self.font = font
+        self.originalTag = originalTag
+        self.parentText = parentText
+        self.childText = childText
+        self.isSelected = isSelected
+        self.cornerRadius = cornerRadius
+        self.onTap = onTap
+        self.onDismiss = onDismiss
+    }
 
     public var body: some View {
         Button {
