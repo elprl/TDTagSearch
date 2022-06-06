@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension String {
+public extension String {
     
     func parse(with style: TagStyle = .parentChild) -> (String, String?) {
         let subStrings = self.components(separatedBy: "/")

@@ -9,7 +9,7 @@
 import Foundation
 import SwiftUI
 
-extension Color {
+public extension Color {
     init?(hex: String) {
         var str = hex
         if str.hasPrefix("#") {
