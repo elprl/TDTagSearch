@@ -67,10 +67,18 @@ public struct TDTagCapsuleSUI: View {
             }
             .font(font)
             .fixedSize()
-            .cornerRadius(font.uiFont.pointSize)
+            .cornerRadius(fontPointSize)
             .foregroundColor(color)
-            .overlay(RoundedRectangle(cornerRadius: font.uiFont.pointSize).stroke(color, lineWidth: 1.0))
+            .overlay(RoundedRectangle(cornerRadius: fontPointSize).stroke(color, lineWidth: 1.0))
         }
+    }
+    
+    private var fontPointSize: CGFloat {
+        #if canImport(UIKit)
+        return font.uiFont.pointSize
+        #else
+        return 12.0
+        #endif
     }
 }
 

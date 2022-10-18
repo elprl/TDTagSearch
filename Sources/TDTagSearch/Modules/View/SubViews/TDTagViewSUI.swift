@@ -99,6 +99,8 @@ extension String {
     }
 }
 
+#if canImport(UIKit)
+
 extension Font {
     var uiFont: UIFont {
         let style: UIFont.TextStyle
@@ -119,6 +121,31 @@ extension Font {
         return  UIFont.preferredFont(forTextStyle: style)
     }
 }
+
+#else
+
+extension Font {
+    var uiFont: NSFont {
+        let style: NSFont.TextStyle
+        switch self {
+        case .largeTitle:  style = .largeTitle
+        case .title:       style = .title1
+        case .title2:      style = .title2
+        case .title3:      style = .title3
+        case .headline:    style = .headline
+        case .subheadline: style = .subheadline
+        case .callout:     style = .callout
+        case .caption:     style = .caption1
+        case .caption2:    style = .caption2
+        case .footnote:    style = .footnote
+        case .body: fallthrough
+        default:           style = .body
+        }
+        return  NSFont.preferredFont(forTextStyle: style)
+    }
+}
+
+#endif
 
 #if DEBUG
 

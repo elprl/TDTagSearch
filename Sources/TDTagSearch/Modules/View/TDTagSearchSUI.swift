@@ -16,10 +16,9 @@ public struct TDTagSearchSUI: View {
 #if DEBUG
         let _ = Self._printChanges()
 #endif
-        NavigationView {
+        NavigationStack {
             TDTagSearchScrollViewSUI(presenter: presenter)
         }
-        .navigationViewStyle(.stack)
         .environmentObject(viewModel)
         .onAppear {
             self.presenter.onAppear()
