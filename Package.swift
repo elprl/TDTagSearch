@@ -26,8 +26,8 @@ let package = Package(
         .target(
             name: "TDTagSearch",
             dependencies: [],
-            exclude: ["Excludes"],
-            resources: [.process("tags.json")],
+            exclude: ["Excludes/"],
+            resources: [.process("Resources/")],
             swiftSettings: [.unsafeFlags(["-enable-testing"])]),
         .testTarget(
             name: "TDTagSearchTests",
