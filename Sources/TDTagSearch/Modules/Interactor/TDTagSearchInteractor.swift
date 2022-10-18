@@ -16,7 +16,7 @@ protocol TDTagSearchInteractorPresenterInterface: AnyObject {
 
 final public class TDTagSearchInteractor {
     weak var presenter: TDTagSearchPresenterInteractorInterface!
-    var filePath: String? = Bundle.module.path(forResource: "tags", ofType: "json")
+    var filePath: String? = Bundle.main.path(forResource: "tags", ofType: "json")
 }
 
 extension TDTagSearchInteractor: TDTagSearchInteractorPresenterInterface {
