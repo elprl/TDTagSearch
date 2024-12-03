@@ -17,13 +17,13 @@ public enum LoadingState: String {
 }
 
 final public class TDTagSearchViewModel: ObservableObject {
-    @Published var tags: [String] = []
+    @Published public var tags: [String] = []
     @Published public var filteredTags: [String] = []
     @Published public var selectedTags: [String] = []
-    @Published var selectedTag: String? = nil
-    @Published var selectedPath: String? = nil
-    @Published var loadingState: LoadingState = .initial
-    @Published var isSearching: Bool = false
+    @Published public var selectedTag: String? = nil
+    @Published public var selectedPath: String? = nil
+    @Published public var loadingState: LoadingState = .initial
+    @Published public var isSearching: Bool = false
     @Published public var hasFinished: Bool = false
     @Published var searchText: String = "" {
         didSet {
@@ -33,8 +33,8 @@ final public class TDTagSearchViewModel: ObservableObject {
         }
     }
     
-    public init() {
-        
+    public init(tags: [String] = []) {
+        self.tags = tags
     }
 }
 
@@ -65,10 +65,14 @@ extension TDTagSearchViewModel {
         case "ar": return Color(hex: "1C5D5D")!
         case "co": return Color(hex: "662022")!
         case "de": return Color(hex: "B17130")!
-        case "do": return Color(hex: "398797")!
+        case "er": return Color(hex: "DE0A04")!
+        case "ge": return Color(hex: "7B0542")!
+        case "ma": return Color(hex: "C305FA")!
         case "pr": return .green
         case "re": return Color(hex: "66622E")!
         case "se": return Color(hex: "DA4832")!
+        case "sc": return Color(hex: "DE04CC")!
+        case "te": return Color(hex: "8A05FF")!
         default: return .gray
         }
     }
